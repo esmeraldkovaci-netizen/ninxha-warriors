@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🥷 Ninxha Warriors</title>
+    <title>🥷 Ninxha Warriors PRO</title>
     <style>
         * {
             margin: 0;
@@ -29,6 +29,66 @@
             align-items: center;
         }
         
+        /* SCORE MENU */
+        #scoreMenu {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #8A2BE2;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.7);
+        }
+        
+        #scoreMenu h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        
+        .score-stats {
+            background: rgba(138, 43, 226, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 10px 0;
+            border: 1px solid #8A2BE2;
+        }
+        
+        .gift-reward {
+            background: linear-gradient(45deg, #FF6B6B, #FFD700);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            animation: glow 2s infinite;
+        }
+        
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #FFD700; }
+            50% { box-shadow: 0 0 20px #FF6B6B; }
+            100% { box-shadow: 0 0 10px #FFD700; }
+        }
+        
+        .menu-btn {
+            background: linear-gradient(45deg, #8A2BE2, #FF69B4);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .menu-btn:hover {
+            transform: scale(1.1);
+        }
+        
         #gameUI {
             position: absolute;
             top: 0;
@@ -44,6 +104,7 @@
             display: flex;
             justify-content: space-around;
             margin-bottom: 10px;
+            flex-wrap: wrap;
         }
         
         .stat-item {
@@ -51,6 +112,7 @@
             padding: 8px 15px;
             border-radius: 20px;
             border: 1px solid #8A2BE2;
+            margin: 5px;
         }
         
         #gameCanvas {
@@ -60,14 +122,25 @@
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
         }
         
-        #instructions {
+        #controls {
             position: absolute;
             bottom: 20px;
             text-align: center;
             background: rgba(255, 215, 0, 0.2);
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 15px;
             border: 1px solid #FFD700;
+        }
+        
+        .control-btn {
+            background: rgba(138, 43, 226, 0.6);
+            border: 2px solid #8A2BE2;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
         
         .combo {
@@ -81,56 +154,277 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+
+        /* HERO SELECTION */
+        #heroSelection {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #8A2BE2;
+            text-align: center;
+            z-index: 1000;
+        }
+        
+        .hero-option {
+            background: rgba(138, 43, 226, 0.3);
+            padding: 20px;
+            margin: 15px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            width: 120px;
+        }
+        
+        .hero-option:hover {
+            border-color: #FFD700;
+            transform: scale(1.05);
+        }
+        
+        .hero-option.selected {
+            border-color: #FF69B4;
+            background: rgba(138, 43, 226, 0.6);
+        }
+        
+        .hero-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
     <div id="gameContainer">
+        <!-- HERO SELECTION MENU -->
+        <div id="heroSelection">
+            <h2>🎯 Zgjidh Herojin Tënd! 🎯</h2>
+            <div class="hero-option" onclick="selectHero('kaito')">
+                <div class="hero-icon">🥷</div>
+                <h3>Kaito</h3>
+                <p>Shpejtësi +20%</p>
+            </div>
+            <div class="hero-option" onclick="selectHero('yuki')">
+                <div class="hero-icon">👸</div>
+                <h3>Yuki</h3>
+                <p>Shëndet +30%</p>
+            </div>
+            <div class="hero-option" onclick="selectHero('kenji')">
+                <div class="hero-icon">🗡️</div>
+                <h3>Kenji</h3>
+                <p>Dëm +25%</p>
+            </div>
+            <button class="menu-btn" onclick="startGame()">FILLO LOJËN</button>
+        </div>
+
+        <!-- SCORE MENU -->
+        <div id="scoreMenu">
+            <h2>🏆 REZULTATET 🏆</h2>
+            <div class="score-stats">
+                <p>⭐ Niveli: <span id="finalLevel">1</span></p>
+                <p>⚔️ Vrasje: <span id="finalKills">0</span></p>
+                <p>🔥 Kombo Maksimal: <span id="finalCombo">1x</span></p>
+                <p>⏱️ Koha: <span id="finalTime">0s</span></p>
+            </div>
+            <div class="gift-reward">
+                <h3>🎁 DHURATA!</h3>
+                <p id="giftMessage">+50 XP Bonus!</p>
+            </div>
+            <div>
+                <button class="menu-btn" onclick="restartGame()">🔄 LUAJ PËRSËRI</button>
+                <button class="menu-btn" onclick="shareScore()">📤 SHPAËRNDAJ</button>
+            </div>
+        </div>
+
         <div id="gameUI">
-            <h2>🥷 Ninxha Warriors</h2>
+            <h2>🥷 Ninxha Warriors PRO</h2>
             <div class="stats">
                 <div class="stat-item">🏆 Level: <span id="level">1</span></div>
                 <div class="stat-item">❤️ Health: <span id="health">100</span></div>
                 <div class="stat-item">⚔️ Kills: <span id="kills">0</span></div>
+                <div class="stat-item">💎 XP: <span id="xp">0</span>/<span id="xpNeeded">50</span></div>
+                <div class="stat-item">⏱️ Time: <span id="gameTime">0</span>s</div>
             </div>
             <div id="comboDisplay" style="display: none;">
                 🔥 Combo: <span id="combo" class="combo">1x</span>
             </div>
         </div>
         
-        <canvas id="gameCanvas" width="360" height="600"></canvas>
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
         
-        <div id="instructions">
-            👆 Prek dhe lëviz për të luajtur! 🎯
+        <div id="controls">
+            <div>
+                <button class="control-btn" onclick="useShuriken()">🗡️ Shuriken</button>
+                <button class="control-btn" onclick="useKatana()">⚔️ Katana</button>
+                <button class="control-btn" onclick="useSpecial()">💥 Special</button>
+                <button class="control-btn" onclick="showScoreMenu()">🏆 Score</button>
+            </div>
+            <div style="margin-top: 10px;">
+                👆 Prek dhe lëviz për të luajtur! 🎯
+            </div>
         </div>
     </div>
 
     <script>
-        // Konfigurimi i lojës
+        // ==================== KONFIGURIMI I LOJËS ====================
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         
-        // Variablat e lojës
+        // ==================== VARIABLAT E REJA ====================
         let ninja = {
             x: canvas.width / 2,
             y: canvas.height / 2,
-            size: 30,
+            width: 32,
+            height: 32,
             health: 100,
             maxHealth: 100,
             level: 1,
             kills: 0,
-            color: '#8A2BE2',
-            speed: 5
+            xp: 0,
+            xpNeeded: 50,
+            speed: 4,
+            isAttacking: false,
+            attackCooldown: 0,
+            currentWeapon: 'shuriken',
+            heroType: 'kaito',
+            damage: 10
         };
         
         let enemies = [];
         let bullets = [];
         let particles = [];
+        let shurikens = [];
         let combo = 1;
         let comboTime = 0;
         let touchX = ninja.x;
         let touchY = ninja.y;
-        
-        // Kontrolli me prekje
+        let backgroundOffset = 0;
+        let gameTime = 0;
+        let gameTimer;
+        let maxCombo = 1;
+
+        // ==================== MENU FUNCTIONS ====================
+        function selectHero(hero) {
+            // Remove selection from all
+            document.querySelectorAll('.hero-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selection to clicked hero
+            event.target.closest('.hero-option').classList.add('selected');
+            
+            // Set hero stats
+            switch(hero) {
+                case 'kaito':
+                    ninja.speed = 5;
+                    ninja.heroType = 'kaito';
+                    break;
+                case 'yuki':
+                    ninja.maxHealth = 130;
+                    ninja.health = 130;
+                    ninja.heroType = 'yuki';
+                    break;
+                case 'kenji':
+                    ninja.damage = 13;
+                    ninja.heroType = 'kenji';
+                    break;
+            }
+        }
+
+        function startGame() {
+            document.getElementById('heroSelection').style.display = 'none';
+            startGameTimer();
+            gameLoop();
+        }
+
+        function showScoreMenu() {
+            document.getElementById('scoreMenu').style.display = 'block';
+            document.getElementById('finalLevel').textContent = ninja.level;
+            document.getElementById('finalKills').textContent = ninja.kills;
+            document.getElementById('finalCombo').textContent = maxCombo + 'x';
+            document.getElementById('finalTime').textContent = gameTime + 's';
+            
+            // Calculate gift
+            let gift = '';
+            if (ninja.kills >= 10) {
+                gift = '🎯 Master Ninxha! +100 XP';
+                ninja.xp += 100;
+            } else if (ninja.level >= 3) {
+                gift = '⭐ Veteran! +50 XP';
+                ninja.xp += 50;
+            } else {
+                gift = '👏 Fillim i mirë! +25 XP';
+                ninja.xp += 25;
+            }
+            document.getElementById('giftMessage').textContent = gift;
+        }
+
+        function restartGame() {
+            document.getElementById('scoreMenu').style.display = 'none';
+            resetGame();
+            startGame();
+        }
+
+        function shareScore() {
+            const scoreText = `🥷 Vrava ${ninja.kills} armikë në nivel ${ninja.level} me kombo ${maxCombo}x! Provoni Ninxha Warriors!`;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Ninxha Warriors Score',
+                    text: scoreText,
+                    url: window.location.href
+                });
+            } else {
+                alert(scoreText);
+            }
+        }
+
+        function startGameTimer() {
+            gameTime = 0;
+            clearInterval(gameTimer);
+            gameTimer = setInterval(() => {
+                gameTime++;
+                document.getElementById('gameTime').textContent = gameTime;
+            }, 1000);
+        }
+
+        function resetGame() {
+            ninja = {
+                x: canvas.width / 2,
+                y: canvas.height / 2,
+                width: 32,
+                height: 32,
+                health: ninja.maxHealth,
+                maxHealth: ninja.maxHealth,
+                level: 1,
+                kills: 0,
+                xp: 0,
+                xpNeeded: 50,
+                speed: ninja.speed,
+                damage: ninja.damage,
+                heroType: ninja.heroType,
+                currentWeapon: 'shuriken'
+            };
+            
+            enemies = [];
+            bullets = [];
+            particles = [];
+            shurikens = [];
+            combo = 1;
+            comboTime = 0;
+            maxCombo = 1;
+            
+            document.getElementById('level').textContent = '1';
+            document.getElementById('health').textContent = ninja.health;
+            document.getElementById('kills').textContent = '0';
+            document.getElementById('xp').textContent = '0';
+            document.getElementById('xpNeeded').textContent = '50';
+            document.getElementById('comboDisplay').style.display = 'none';
+        }
+
+        // ==================== KONTROLLET ====================
         canvas.addEventListener('touchmove', (e) => {
             e.preventDefault();
             const touch = e.touches[0];
@@ -138,82 +432,55 @@
             touchX = touch.clientX - rect.left;
             touchY = touch.clientY - rect.top;
         });
-        
-        // Krijimi i imazheve
-        function createNinja() {
-            const offscreen = document.createElement('canvas');
-            offscreen.width = ninja.size;
-            offscreen.height = ninja.size;
-            const octx = offscreen.getContext('2d');
-            
-            // Trupi i ninxhasë
-            octx.fillStyle = ninja.color;
-            octx.fillRect(5, 5, 20, 20);
-            
-            // Sy
-            octx.fillStyle = 'white';
-            octx.fillRect(8, 8, 4, 4);
-            octx.fillRect(18, 8, 4, 4);
-            
-            // Maskë
-            octx.strokeStyle = '#FF69B4';
-            octx.lineWidth = 2;
-            octx.beginPath();
-            octx.moveTo(5, 7);
-            octx.lineTo(25, 7);
-            octx.stroke();
-            
-            return offscreen;
-        }
-        
-        function createEnemy(type) {
-            const offscreen = document.createElement('canvas');
-            offscreen.width = 25;
-            offscreen.height = 25;
-            const octx = offscreen.getContext('2d');
-            
-            const colors = {
-                samurai: '#B22222',
-                ninja: '#2F4F4F',
-                ronin: '#8B4513'
-            };
-            
-            octx.fillStyle = colors[type] || '#B22222';
-            octx.fillRect(2, 2, 21, 21);
-            
-            return offscreen;
-        }
-        
-        // Sulmi automatik
-        function autoAttack() {
+
+        function useShuriken() {
             if (enemies.length > 0) {
-                const nearest = enemies.reduce((nearest, enemy) => {
-                    const dist = Math.hypot(ninja.x - enemy.x, ninja.y - enemy.y);
-                    return dist < nearest.dist ? { enemy, dist } : nearest;
-                }, { enemy: enemies[0], dist: Infinity });
+                const nearest = enemies[0];
+                const angle = Math.atan2(nearest.y - ninja.y, nearest.x - ninja.x);
                 
-                const angle = Math.atan2(nearest.enemy.y - ninja.y, nearest.enemy.x - ninja.x);
-                
-                bullets.push({
+                shurikens.push({
                     x: ninja.x,
                     y: ninja.y,
                     vx: Math.cos(angle) * 8,
                     vy: Math.sin(angle) * 8,
-                    damage: 10 * combo
-                });
-                
-                // Efekt sulmi
-                particles.push({
-                    x: ninja.x,
-                    y: ninja.y,
-                    size: 5,
-                    color: '#FF69B4',
-                    life: 10
+                    damage: ninja.damage * combo
                 });
             }
         }
-        
-        // Përditësimi i lojës
+
+        function useKatana() {
+            ninja.isAttacking = true;
+            ninja.attackCooldown = 20;
+            
+            // Goditja e afërt
+            enemies.forEach((enemy, index) => {
+                const dist = Math.hypot(ninja.x - enemy.x, ninja.y - enemy.y);
+                if (dist < 60) {
+                    enemy.health -= ninja.damage * 2;
+                    if (enemy.health <= 0) {
+                        enemies.splice(index, 1);
+                        ninja.kills++;
+                        document.getElementById('kills').textContent = ninja.kills;
+                    }
+                }
+            });
+        }
+
+        function useSpecial() {
+            // Sulm special rreth ninxhasë
+            for (let i = 0; i < 8; i++) {
+                const angle = (i / 8) * Math.PI * 2;
+                bullets.push({
+                    x: ninja.x,
+                    y: ninja.y,
+                    vx: Math.cos(angle) * 6,
+                    vy: Math.sin(angle) * 6,
+                    damage: ninja.damage * 1.5
+                });
+            }
+        }
+
+        // ==================== UPDATE & DRAW ====================
         function update() {
             // Lëvizja e ninxhasë
             const dx = touchX - ninja.x;
@@ -225,17 +492,14 @@
                 ninja.y += (dy / dist) * ninja.speed;
             }
             
-            // Kufijtë e ekranit
-            ninja.x = Math.max(ninja.size, Math.min(canvas.width - ninja.size, ninja.x));
-            ninja.y = Math.max(ninja.size, Math.min(canvas.height - ninja.size, ninja.y));
+            // Kufijtë
+            ninja.x = Math.max(ninja.width, Math.min(canvas.width - ninja.width, ninja.x));
+            ninja.y = Math.max(ninja.height, Math.min(canvas.height - ninja.height, ninja.y));
             
-            // Shto armikë të rinj
-            if (Math.random() < 0.02 && enemies.length < 3 + ninja.level) {
-                const types = ['samurai', 'ninja', 'ronin'];
-                const type = types[Math.floor(Math.random() * types.length)];
-                
-                let x, y;
+            // Shto armikë
+            if (Math.random() < 0.02 && enemies.length < 5 + ninja.level) {
                 const side = Math.floor(Math.random() * 4);
+                let x, y;
                 
                 switch(side) {
                     case 0: x = -25; y = Math.random() * canvas.height; break;
@@ -245,19 +509,16 @@
                 }
                 
                 enemies.push({
-                    x: x,
-                    y: y,
-                    type: type,
+                    x: x, y: y,
+                    type: ['samurai', 'ninja', 'ronin'][Math.floor(Math.random() * 3)],
                     health: 30 + ninja.level * 5,
                     maxHealth: 30 + ninja.level * 5,
-                    speed: 1 + Math.random() * 1.5,
-                    image: createEnemy(type)
+                    speed: 1 + Math.random() * 1.5
                 });
             }
             
             // Përditësimi i armikëve
             enemies.forEach((enemy, eIndex) => {
-                // Lëvizja drejt ninxhasë
                 const edx = ninja.x - enemy.x;
                 const edy = ninja.y - enemy.y;
                 const edist = Math.hypot(edx, edy);
@@ -266,78 +527,52 @@
                 enemy.y += (edy / edist) * enemy.speed;
                 
                 // Goditja e ninxhasë
-                if (edist < ninja.size/2 + 12) {
-                    ninja.health -= 0.3;
+                if (edist < 30) {
+                    ninja.health -= 0.5;
                     document.getElementById('health').textContent = Math.floor(ninja.health);
                     
                     if (ninja.health <= 0) {
-                        gameOver();
+                        showScoreMenu();
                     }
-                }
-                
-                // Fshi armikët jashtë ekranit
-                if (enemy.x < -50 || enemy.x > canvas.width + 50 || 
-                    enemy.y < -50 || enemy.y > canvas.height + 50) {
-                    enemies.splice(eIndex, 1);
                 }
             });
             
-            // Përditësimi i plumbave
-            bullets.forEach((bullet, bIndex) => {
-                bullet.x += bullet.vx;
-                bullet.y += bullet.vy;
+            // Përditësimi i shurikeneve
+            shurikens.forEach((shuriken, sIndex) => {
+                shuriken.x += shuriken.vx;
+                shuriken.y += shuriken.vy;
                 
-                // Kontrollo goditjet
                 enemies.forEach((enemy, eIndex) => {
-                    const dist = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
-                    if (dist < 20) {
-                        enemy.health -= bullet.damage;
-                        bullets.splice(bIndex, 1);
-                        
-                        // Efekt goditje
-                        particles.push({
-                            x: bullet.x,
-                            y: bullet.y,
-                            size: 8,
-                            color: '#FF4500',
-                            life: 15
-                        });
+                    const dist = Math.hypot(shuriken.x - enemy.x, shuriken.y - enemy.y);
+                    if (dist < 25) {
+                        enemy.health -= shuriken.damage;
+                        shurikens.splice(sIndex, 1);
                         
                         if (enemy.health <= 0) {
                             enemies.splice(eIndex, 1);
                             ninja.kills++;
+                            ninja.xp += 10;
                             combo++;
                             comboTime = 180;
+                            maxCombo = Math.max(maxCombo, combo);
                             
                             document.getElementById('kills').textContent = ninja.kills;
+                            document.getElementById('xp').textContent = ninja.xp;
                             document.getElementById('combo').textContent = combo + 'x';
                             document.getElementById('comboDisplay').style.display = 'block';
                             
                             // Level up
-                            if (ninja.kills % 5 === 0) {
+                            if (ninja.xp >= ninja.xpNeeded) {
                                 levelUp();
-                            }
-                            
-                            // Efekt vdekje
-                            for (let i = 0; i < 8; i++) {
-                                particles.push({
-                                    x: enemy.x,
-                                    y: enemy.y,
-                                    vx: (Math.random() - 0.5) * 4,
-                                    vy: (Math.random() - 0.5) * 4,
-                                    size: Math.random() * 3 + 1,
-                                    color: '#FF0000',
-                                    life: 30
-                                });
                             }
                         }
                     }
                 });
                 
-                // Fshi plumbat jashtë ekranit
-                if (bullet.x < -20 || bullet.x > canvas.width + 20 || 
-                    bullet.y < -20 || bullet.y > canvas.height + 20) {
-                    bullets.splice(bIndex, 1);
+                // Fshi shuriken jashtë ekranit
+                if (shuriken.x < -50 || shuriken.x > canvas.width + 50 || 
+                    shuriken.y < -50 || shuriken.y > canvas.height + 50) {
+                    shurikens.splice(sIndex, 1);
                 }
             });
             
@@ -348,114 +583,56 @@
                 combo = 1;
                 document.getElementById('comboDisplay').style.display = 'none';
             }
-            
-            // Përditësimi i partikujve
-            particles.forEach((particle, pIndex) => {
-                if (particle.vx) {
-                    particle.x += particle.vx;
-                    particle.y += particle.vy;
-                }
-                particle.life--;
-                
-                if (particle.life <= 0) {
-                    particles.splice(pIndex, 1);
-                }
-            });
-            
-            // Sulmi automatik
-            if (Math.random() < 0.05) {
-                autoAttack();
-            }
         }
-        
-        // Level up
+
         function levelUp() {
             ninja.level++;
-            ninja.maxHealth += 10;
-            ninja.health = ninja.maxHealth;
+            ninja.xp = 0;
+            ninja.xpNeeded = Math.floor(ninja.xpNeeded * 1.5);
             document.getElementById('level').textContent = ninja.level;
-            document.getElementById('health').textContent = ninja.health;
-            
-            // Efekt level up
-            for (let i = 0; i < 12; i++) {
-                particles.push({
-                    x: ninja.x,
-                    y: ninja.y,
-                    vx: (Math.random() - 0.5) * 6,
-                    vy: (Math.random() - 0.5) * 6,
-                    size: Math.random() * 4 + 2,
-                    color: '#00FF7F',
-                    life: 40
-                });
-            }
+            document.getElementById('xp').textContent = '0';
+            document.getElementById('xpNeeded').textContent = ninja.xpNeeded;
         }
-        
-        // Game over
-        function gameOver() {
-            ninja.health = ninja.maxHealth;
-            ninja.level = 1;
-            ninja.kills = 0;
-            enemies = [];
-            bullets = [];
-            combo = 1;
-            
-            document.getElementById('level').textContent = '1';
-            document.getElementById('health').textContent = '100';
-            document.getElementById('kills').textContent = '0';
-            document.getElementById('comboDisplay').style.display = 'none';
-        }
-        
-        // Vizatimi
+
         function draw() {
             // Sfondi
             ctx.fillStyle = '#0f3460';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Vizato partikujt
-            particles.forEach(particle => {
-                ctx.globalAlpha = particle.life / 30;
-                ctx.fillStyle = particle.color;
-                ctx.fillRect(
-                    particle.x - particle.size/2,
-                    particle.y - particle.size/2,
-                    particle.size,
-                    particle.size
-                );
-            });
-            ctx.globalAlpha = 1;
-            
             // Vizato armikët
             enemies.forEach(enemy => {
-                ctx.drawImage(enemy.image, enemy.x - 12, enemy.y - 12);
-                
-                // Health bar
-                const healthPercent = enemy.health / enemy.maxHealth;
-                ctx.fillStyle = '#333';
-                ctx.fillRect(enemy.x - 15, enemy.y - 20, 30, 3);
-                ctx.fillStyle = healthPercent > 0.6 ? '#32CD32' : 
-                               healthPercent > 0.3 ? '#FFA500' : '#FF0000';
-                ctx.fillRect(enemy.x - 15, enemy.y - 20, 30 * healthPercent, 3);
+                ctx.fillStyle = enemy.type === 'samurai' ? '#B22222' : 
+                               enemy.type === 'ninja' ? '#2F4F4F' : '#8B4513';
+                ctx.fillRect(enemy.x - 15, enemy.y - 15, 30, 30);
             });
             
-            // Vizato plumbat
+            // Vizato shuriken
             ctx.fillStyle = '#FFD700';
-            bullets.forEach(bullet => {
-                ctx.fillRect(bullet.x - 2, bullet.y - 2, 4, 4);
+            shurikens.forEach(shuriken => {
+                ctx.beginPath();
+                ctx.arc(shuriken.x, shuriken.y, 5, 0, Math.PI * 2);
+                ctx.fill();
             });
             
             // Vizato ninxhan
-            const ninjaImg = createNinja();
-            ctx.drawImage(ninjaImg, ninja.x - ninja.size/2, ninja.y - ninja.size/2);
+            ctx.fillStyle = '#8A2BE2';
+            ctx.fillRect(ninja.x - 16, ninja.y - 16, 32, 32);
+            
+            // Emri i heroit mbi ninxhan
+            ctx.fillStyle = '#FFFFFF';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(ninja.heroType.toUpperCase(), ninja.x, ninja.y - 20);
         }
-        
-        // Loop i lojës
+
         function gameLoop() {
             update();
             draw();
             requestAnimationFrame(gameLoop);
         }
-        
+
         // Fillo lojën
+        startGameTimer();
         gameLoop();
     </script>
 </body>
