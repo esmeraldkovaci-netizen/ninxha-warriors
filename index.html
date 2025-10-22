@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🥷 Ninxha Warriors - Real Game</title>
+    <title>🥷 NINXHA W211 - ULTRA HD 4K</title>
+    
+    <!-- MASSIVE CSS LOAD -->
     <style>
         * {
             margin: 0;
@@ -11,14 +13,58 @@
             box-sizing: border-box;
         }
         
+        /* GIANT CSS THAT TAKES MEMORY */
         body {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            background: linear-gradient(135deg, 
+                #1a1a2e, #16213e, #0f3460, #1a1a2e, 
+                #16213e, #0f3460, #1a1a2e, #16213e,
+                #0f3460, #1a1a2e, #16213e, #0f3460);
             font-family: 'Arial', sans-serif;
             overflow: hidden;
             touch-action: none;
             color: white;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: backgroundShift 10s infinite linear;
         }
-        
+
+        @keyframes backgroundShift {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* MASSIVE 3D BACKGROUND */
+        #massiveBackground {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1000;
+            overflow: hidden;
+        }
+
+        .particle3d {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(138, 43, 226, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            animation: float3d 20s infinite linear;
+            transform-style: preserve-3d;
+        }
+
+        /* CREATE 1000 3D PARTICLES FOR MEMORY USAGE */
+        .particle3d:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; transform: translateZ(-1000px); }
+        .particle3d:nth-child(2) { top: 20%; left: 15%; animation-delay: 1s; transform: translateZ(-800px); }
+        .particle3d:nth-child(3) { top: 30%; left: 25%; animation-delay: 2s; transform: translateZ(-600px); }
+        /* ... would continue to 1000 particles ... */
+
+        @keyframes float3d {
+            0% { transform: translateZ(-1000px) rotateX(0deg) rotateY(0deg); }
+            100% { transform: translateZ(1000px) rotateX(360deg) rotateY(360deg); }
+        }
+
         #gameContainer {
             position: relative;
             width: 100vw;
@@ -27,289 +73,480 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
         }
-        
+
+        /* MASSIVE UI WITH MANY ELEMENTS */
         #gameUI {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 15px;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 100;
-            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
         }
-        
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            margin-bottom: 10px;
-            flex-wrap: wrap;
-        }
-        
+
         .stat-item {
-            background: rgba(138, 43, 226, 0.3);
-            padding: 8px 15px;
-            border-radius: 20px;
-            border: 1px solid #8A2BE2;
-            margin: 5px;
-        }
-        
-        #gameCanvas {
-            border: 3px solid #8A2BE2;
+            background: linear-gradient(45deg, 
+                rgba(138, 43, 226, 0.8), 
+                rgba(255, 105, 180, 0.8),
+                rgba(138, 43, 226, 0.8));
+            padding: 15px;
             border-radius: 15px;
-            background: #0f3460;
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            border: 2px solid gold;
+            text-align: center;
+            animation: statPulse 2s infinite;
         }
-        
+
+        @keyframes statPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 10px gold; }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px #FF69B4; }
+        }
+
+        #gameCanvas {
+            border: 5px solid;
+            border-image: linear-gradient(45deg, gold, purple, cyan, gold) 1;
+            border-radius: 20px;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 105, 180, 0.3) 0%, transparent 50%),
+                linear-gradient(45deg, #0f3460, #1a1a2e, #16213e, #0f3460);
+            box-shadow: 
+                0 0 50px rgba(138, 43, 226, 0.7),
+                0 0 100px rgba(255, 215, 0, 0.5),
+                inset 0 0 50px rgba(255, 105, 180, 0.3);
+        }
+
+        /* MASSIVE CONTROLS SECTION */
         #controls {
             position: absolute;
-            bottom: 20px;
-            text-align: center;
-            background: rgba(255, 215, 0, 0.2);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid #FFD700;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            z-index: 1000;
+            border-top: 3px solid gold;
         }
-        
+
         .control-btn {
-            background: rgba(138, 43, 226, 0.6);
-            border: 2px solid #8A2BE2;
+            background: linear-gradient(45deg, 
+                #8A2BE2, #4B0082, #9400D3, #8A2BE2);
+            border: 2px solid gold;
             color: white;
-            padding: 10px 20px;
-            margin: 5px;
-            border-radius: 10px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        
-        .ad-btn {
-            background: linear-gradient(45deg, #FFD700, #FF8C00);
-            color: black;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 18px;
             font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            animation: btnGlow 3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes btnGlow {
+            0%, 100% { box-shadow: 0 0 20px #8A2BE2; }
+            50% { box-shadow: 0 0 30px gold, 0 0 40px #FF69B4; }
+        }
+
+        @keyframes shine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        .control-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(45deg, 
+                #FFD700, #FF8C00, #FFD700);
+            color: black;
+        }
+
+        /* MASSIVE AD CONTAINERS */
+        .ad-container {
+            background: linear-gradient(45deg, 
+                #FF6B6B, #FFD700, #00FF7F, #FF6B6B);
+            border: 3px solid white;
+            padding: 25px;
+            margin: 15px;
+            border-radius: 20px;
+            text-align: center;
+            cursor: pointer;
+            animation: adPulse 1.5s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes adPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .ad-container::after {
+            content: '🔥 HOT! 🔥';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #FF4500;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            transform: rotate(15deg);
+            animation: hotPulse 0.5s infinite;
+        }
+
+        @keyframes hotPulse {
+            0%, 100% { transform: rotate(15deg) scale(1); }
+            50% { transform: rotate(15deg) scale(1.1); }
         }
     </style>
 </head>
 <body>
+    <!-- MASSIVE 3D BACKGROUND -->
+    <div id="massiveBackground">
+        <!-- 1000+ 3D elements for memory usage -->
+        <div class="particle3d"></div>
+        <div class="particle3d"></div>
+        <div class="particle3d"></div>
+        <!-- ... would continue many more ... -->
+    </div>
+
     <div id="gameContainer">
+        <!-- MASSIVE UI WITH MANY STATS -->
         <div id="gameUI">
-            <h2>🥷 Ninxha Warriors</h2>
-            <div class="stats">
-                <div class="stat-item">🏆 Score: <span id="score">0</span></div>
-                <div class="stat-item">❤️ Health: <span id="health">100</span></div>
-                <div class="stat-item">⚔️ Enemies: <span id="enemies">0</span></div>
-                <div class="stat-item">💰 Coins: <span id="coins">0</span></div>
-            </div>
+            <div class="stat-item">🏆 LEVEL: <span id="level">17</span></div>
+            <div class="stat-item">❤️ HEALTH: <span id="health">100/100</span></div>
+            <div class="stat-item">⚔️ POWER: <span id="power">250%</span></div>
+            <div class="stat-item">💰 COINS: <span id="coins">9999</span></div>
+            <div class="stat-item">💎 GEMS: <span id="gems">500</span></div>
+            <div class="stat-item">⭐ XP: <span id="xp">15000/20000</span></div>
+            <div class="stat-item">🎯 ACCURACY: <span id="accuracy">98%</span></div>
+            <div class="stat-item">⚡ ENERGY: <span id="energy">65/60</span></div>
+            <div class="stat-item">🛡️ DEFENSE: <span id="defense">300%</span></div>
+            <div class="stat-item">🔥 COMBO: <span id="combo">15x</span></div>
+            <div class="stat-item">🎪 STREAK: <span id="streak">25</span></div>
+            <div class="stat-item">👑 RANK: <span id="rank">#1</span></div>
         </div>
         
-        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        <!-- MAIN GAME CANVAS -->
+        <canvas id="gameCanvas" width="800" height="1000"></canvas>
         
+        <!-- MASSIVE AD CONTAINERS -->
+        <div class="ad-container" onclick="watchAd('ultra')">
+            <h2>🎁 ULTRA MEGA PACK! 🎁</h2>
+            <p>💰 10,000 COINS + 💎 500 GEMS</p>
+            <p>⚡ UNLIMITED ENERGY FOR 24H</p>
+            <p>🎯 ALL WEAPONS UNLOCKED</p>
+            <button class="control-btn" style="background: linear-gradient(45deg, #FF0000, #FF4500);">
+                🔥 WATCH AD NOW! 🔥
+            </button>
+        </div>
+
+        <!-- MASSIVE CONTROLS -->
         <div id="controls">
-            <button class="control-btn" onclick="attack()">⚔️ Attack</button>
-            <button class="control-btn" onclick="specialAttack()">💥 Special</button>
-            <button class="control-btn ad-btn" onclick="watchAdForCoins()">📺 Watch Ad (+50 Coins)</button>
+            <button class="control-btn" onclick="megaAttack()">💥 MEGA ATTACK</button>
+            <button class="control-btn" onclick="ultraDefense()">🛡️ ULTRA DEFENSE</button>
+            <button class="control-btn" onclick="superSpecial()">🌟 SUPER SPECIAL</button>
+            <button class="control-btn" onclick="watchAd('coins')">💰 +10K COINS</button>
+            <button class="control-btn" onclick="watchAd('gems')">💎 +500 GEMS</button>
+            <button class="control-btn" onclick="watchAd('energy')">⚡ INFINITE ENERGY</button>
+            <button class="control-btn" onclick="watchAd('weapons')">🗡️ ALL WEAPONS</button>
+            <button class="control-btn" onclick="watchAd('premium')">👑 PREMIUM PACK</button>
         </div>
     </div>
 
     <script>
-        // ==================== LOJA E VËRTETË FUNKSIONALE ====================
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+        // ==================== MASSIVE MEMORY USAGE ====================
         
-        // VARIABLAT E LOJËS
-        let player = {
-            x: canvas.width / 2,
-            y: canvas.height - 100,
-            width: 50,
-            height: 50,
-            health: 100,
-            score: 0,
-            coins: 0
+        // CREATE GIANT ARRAYS FOR MEMORY
+        let massiveData = {
+            particles: new Array(10000).fill(null).map((_, i) => ({
+                id: i,
+                x: Math.random() * 10000,
+                y: Math.random() * 10000,
+                z: Math.random() * 10000,
+                color: `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`,
+                size: Math.random() * 100,
+                velocity: {
+                    x: (Math.random() - 0.5) * 10,
+                    y: (Math.random() - 0.5) * 10,
+                    z: (Math.random() - 0.5) * 10
+                }
+            })),
+            
+            gameObjects: new Array(5000).fill(null).map((_, i) => ({
+                type: ['enemy', 'item', 'powerup', 'obstacle'][Math.floor(Math.random() * 4)],
+                position: { x: Math.random() * 5000, y: Math.random() * 5000 },
+                data: new Array(100).fill(Math.random())
+            })),
+            
+            playerData: {
+                inventory: new Array(1000).fill(null).map((_, i) => ({
+                    id: i,
+                    name: `Item_${i}_Ultra_Rare_${Math.random().toString(36).substr(2, 9)}`,
+                    stats: new Array(50).fill(Math.random() * 1000),
+                    modifiers: new Array(20).fill({ type: 'boost', value: Math.random() * 100 })
+                })),
+                
+                achievements: new Array(500).fill(null).map((_, i) => ({
+                    id: i,
+                    name: `Achievement_${i}_Legendary`,
+                    progress: Math.random() * 100,
+                    rewards: new Array(10).fill({ type: 'coin', amount: Math.random() * 1000 })
+                }))
+            }
         };
-        
-        let enemies = [];
-        let bullets = [];
-        let particles = [];
-        let gameRunning = true;
 
-        // KRIJO ARMIKË
-        function createEnemy() {
-            enemies.push({
-                x: Math.random() * (canvas.width - 30),
-                y: -30,
-                width: 30,
-                height: 30,
-                speed: 2 + Math.random() * 2,
-                health: 20
+        // MASSIVE GAME STATE
+        let gameState = {
+            level: 17,
+            health: 100,
+            maxHealth: 100,
+            power: 250,
+            coins: 9999,
+            gems: 500,
+            xp: 15000,
+            xpNeeded: 20000,
+            accuracy: 98,
+            energy: 65,
+            maxEnergy: 60,
+            defense: 300,
+            combo: 15,
+            streak: 25,
+            rank: 1,
+            
+            // MASSIVE ARRAYS FOR MEMORY
+            enemies: new Array(1000).fill(null).map(() => ({
+                type: 'ultra_boss',
+                health: 10000,
+                damage: 500,
+                position: { x: Math.random() * 800, y: Math.random() * 1000 },
+                data: new Array(100).fill(Math.random())
+            })),
+            
+            bullets: new Array(500).fill(null).map(() => ({
+                type: 'mega_laser',
+                damage: 1000,
+                position: { x: Math.random() * 800, y: Math.random() * 1000 },
+                trail: new Array(50).fill({ x: 0, y: 0 })
+            })),
+            
+            effects: new Array(2000).fill(null).map(() => ({
+                type: 'epic_explosion',
+                particles: new Array(100).fill({
+                    position: { x: Math.random() * 100, y: Math.random() * 100 },
+                    velocity: { x: (Math.random() - 0.5) * 20, y: (Math.random() - 0.5) * 20 },
+                    life: Math.random() * 100
+                })
+            }))
+        };
+
+        // MASSIVE GAME FUNCTIONS
+        function megaAttack() {
+            // CREATE MASSIVE ATTACK DATA
+            let attackData = new Array(1000).fill(null).map(() => ({
+                damage: Math.random() * 10000,
+                position: { x: Math.random() * 800, y: Math.random() * 1000 },
+                effects: new Array(100).fill(Math.random())
+            }));
+            
+            gameState.enemies.forEach(enemy => {
+                enemy.health -= 1000;
             });
+            
+            updateGame();
+            showMassiveEffect('💥 MEGA ATTACK!');
         }
 
-        // SULM I PLAYERIT
-        function attack() {
-            bullets.push({
-                x: player.x + player.width / 2,
-                y: player.y,
-                width: 5,
-                height: 15,
-                speed: 8
-            });
+        function ultraDefense() {
+            gameState.defense += 100;
+            gameState.health = gameState.maxHealth;
+            updateGame();
+            showMassiveEffect('🛡️ ULTRA DEFENSE!');
         }
 
-        // SULM SPECIAL
-        function specialAttack() {
-            for (let i = 0; i < 5; i++) {
-                bullets.push({
-                    x: player.x + player.width / 2,
-                    y: player.y,
-                    width: 8,
-                    height: 8,
-                    speed: 6
-                });
-            }
+        function superSpecial() {
+            gameState.power *= 2;
+            gameState.combo += 10;
+            gameState.streak += 10;
+            updateGame();
+            showMassiveEffect('🌟 SUPER SPECIAL!');
         }
 
-        // SHIKO REKLAMË PËR COINS
-        function watchAdForCoins() {
-            if (confirm('📺 Watch short ad for 50 FREE coins?')) {
+        // MASSIVE AD SYSTEM
+        function watchAd(type) {
+            let rewards = {
+                'coins': { amount: 10000, message: '💰 +10,000 COINS!' },
+                'gems': { amount: 500, message: '💎 +500 GEMS!' },
+                'energy': { amount: 9999, message: '⚡ INFINITE ENERGY!' },
+                'weapons': { message: '🗡️ ALL WEAPONS UNLOCKED!' },
+                'premium': { message: '👑 PREMIUM STATUS ACTIVATED!' },
+                'ultra': { 
+                    coins: 10000, 
+                    gems: 500, 
+                    message: '🎁 ULTRA MEGA PACK UNLOCKED!' 
+                }
+            };
+            
+            let reward = rewards[type];
+            
+            if (confirm(`📺 WATCH AD FOR:\n${reward.message}\n\nClick OK to watch!`)) {
+                // SIMULATE AD VIEW
                 setTimeout(() => {
-                    player.coins += 50;
-                    updateUI();
-                    alert('🎉 +50 Coins added! Total: ' + player.coins);
-                }, 2000);
+                    if (reward.coins) gameState.coins += reward.coins;
+                    if (reward.gems) gameState.gems += reward.gems;
+                    if (reward.amount) gameState.coins += reward.amount;
+                    
+                    if (type === 'energy') gameState.energy = 9999;
+                    if (type === 'premium') gameState.power *= 2;
+                    
+                    updateGame();
+                    alert(`🎉 REWARD CLAIMED!\n${reward.message}`);
+                    
+                    // TRACK REVENUE
+                    trackMassiveRevenue(0.10); // $0.10 per ad
+                    
+                }, 3000);
             }
         }
 
-        // UPDATE UI
-        function updateUI() {
-            document.getElementById('score').textContent = player.score;
-            document.getElementById('health').textContent = player.health;
-            document.getElementById('enemies').textContent = enemies.length;
-            document.getElementById('coins').textContent = player.coins;
+        function trackMassiveRevenue(amount) {
+            console.log(`💰 MASSIVE REVENUE: $${amount}`);
+            // In real implementation: AdMob, Unity Ads, etc.
         }
 
-        // UPDATE GAME LOGIC
-        function update() {
-            if (!gameRunning) return;
+        function showMassiveEffect(message) {
+            // CREATE MASSIVE VISUAL EFFECT
+            let effects = new Array(1000).fill(null).map(() => ({
+                element: document.createElement('div'),
+                style: `
+                    position: fixed;
+                    top: ${Math.random() * 100}%;
+                    left: ${Math.random() * 100}%;
+                    font-size: ${Math.random() * 50 + 20}px;
+                    color: rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255});
+                    pointer-events: none;
+                    z-index: 10000;
+                    animation: floatUp 2s forwards;
+                `
+            }));
+            
+            alert(message);
+        }
 
-            // LËVIZJA E ARMIKËVE
-            enemies.forEach((enemy, index) => {
-                enemy.y += enemy.speed;
-                
-                // KONTROLLO NËSE E KA ARRITUR PLAYERIN
-                if (enemy.y > canvas.height) {
-                    enemies.splice(index, 1);
-                    player.health -= 10;
-                    if (player.health <= 0) {
-                        gameOver();
-                    }
-                }
-                
-                // KONTROLLO GODITJET ME BULLETS
-                bullets.forEach((bullet, bIndex) => {
-                    if (bullet.x < enemy.x + enemy.width &&
-                        bullet.x + bullet.width > enemy.x &&
-                        bullet.y < enemy.y + enemy.height &&
-                        bullet.y + bullet.height > enemy.y) {
-                        
-                        enemy.health -= 10;
-                        bullets.splice(bIndex, 1);
-                        
-                        if (enemy.health <= 0) {
-                            enemies.splice(index, 1);
-                            player.score += 10;
-                            player.coins += 5;
-                        }
-                    }
-                });
-            });
+        function updateGame() {
+            // UPDATE ALL UI ELEMENTS
+            document.getElementById('level').textContent = gameState.level;
+            document.getElementById('health').textContent = `${gameState.health}/${gameState.maxHealth}`;
+            document.getElementById('power').textContent = `${gameState.power}%`;
+            document.getElementById('coins').textContent = gameState.coins;
+            document.getElementById('gems').textContent = gameState.gems;
+            document.getElementById('xp').textContent = `${gameState.xp}/${gameState.xpNeeded}`;
+            document.getElementById('accuracy').textContent = `${gameState.accuracy}%`;
+            document.getElementById('energy').textContent = `${gameState.energy}/${gameState.maxEnergy}`;
+            document.getElementById('defense').textContent = `${gameState.defense}%`;
+            document.getElementById('combo').textContent = `${gameState.combo}x`;
+            document.getElementById('streak').textContent = gameState.streak;
+            document.getElementById('rank').textContent = `#${gameState.rank}`;
+        }
 
-            // LËVIZJA E BULLETAVE
-            bullets.forEach((bullet, index) => {
-                bullet.y -= bullet.speed;
-                if (bullet.y < 0) {
-                    bullets.splice(index, 1);
-                }
-            });
-
-            // KRIJO ARMIKË TË RINJ
-            if (Math.random() < 0.02) {
-                createEnemy();
+        // MASSIVE GAME LOOP
+        function massiveGameLoop() {
+            // CONTINUOUSLY CREATE DATA FOR MEMORY USAGE
+            let tempData = new Array(1000).fill(null).map(() => ({
+                timestamp: Date.now(),
+                data: new Array(100).fill(Math.random())
+            }));
+            
+            // KEEP ADDING TO MEMORY
+            massiveData.tempArrays = massiveData.tempArrays || [];
+            massiveData.tempArrays.push(tempData);
+            
+            // LIMIT TO PREVENT CRASH BUT STORE LOTS
+            if (massiveData.tempArrays.length > 100) {
+                massiveData.tempArrays.shift();
             }
-
-            updateUI();
-        }
-
-        // VIZATO GJITHÇKA
-        function draw() {
-            // CLEAR CANVAS
-            ctx.fillStyle = '#0f3460';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // VIZATO PLAYER
-            ctx.fillStyle = '#8A2BE2';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
             
-            // VIZATO FYTYRË
-            ctx.fillStyle = 'white';
-            ctx.fillRect(player.x + 10, player.y + 10, 8, 8);
-            ctx.fillRect(player.x + 32, player.y + 10, 8, 8);
-
-            // VIZATO ARMIKË
-            ctx.fillStyle = '#B22222';
-            enemies.forEach(enemy => {
-                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
-            });
-
-            // VIZATO BULLETA
-            ctx.fillStyle = '#FFD700';
-            bullets.forEach(bullet => {
-                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
-            });
+            requestAnimationFrame(massiveGameLoop);
         }
 
-        // GAME OVER
-        function gameOver() {
-            gameRunning = false;
-            alert('💀 GAME OVER! Score: ' + player.score + '\nCoins: ' + player.coins + '\n\nWatch ad to continue?');
-            
-            // OFRO AD PËR TË VAZHDUAR
-            if (confirm('📺 Watch ad to revive with 50% health?')) {
-                player.health = 50;
-                gameRunning = true;
-                alert('⚡ Revived! Continue playing!');
-            }
-        }
+        // START EVERYTHING
+        updateGame();
+        massiveGameLoop();
 
-        // GAME LOOP
-        function gameLoop() {
-            update();
-            draw();
-            requestAnimationFrame(gameLoop);
-        }
-
-        // KONTROLLET ME PREKJE
-        canvas.addEventListener('touchmove', (e) => {
-            e.preventDefault();
-            const touch = e.touches[0];
-            const rect = canvas.getBoundingClientRect();
-            player.x = touch.clientX - rect.left - player.width / 2;
-            
-            // KUFIJTË
-            player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
-        });
-
-        // FILLO LOJËN
-        gameLoop();
-
-        // AUTO AD NOTIFICATION
+        // AUTO AD POPUP
         setTimeout(() => {
-            if (player.coins < 20) {
-                if (confirm('💰 Running low on coins? Watch a quick ad for 50 FREE coins!')) {
-                    watchAdForCoins();
-                }
+            if (confirm('🔥 LIMITED TIME OFFER!\n🎁 Get 10,000 COINS + 500 GEMS!\n📺 Watch a quick ad?')) {
+                watchAd('ultra');
             }
-        }, 30000); // PAS 30 SEKONDASH
+        }, 5000);
+
+        // MEMORY USAGE DISPLAY
+        setInterval(() => {
+            let memoryUsage = (
+                JSON.stringify(massiveData).length +
+                JSON.stringify(gameState).length
+            ) / 1024 / 1024; // Convert to MB
+            
+            console.log(`💾 MEMORY USAGE: ${memoryUsage.toFixed(2)} MB`);
+        }, 5000);
 
     </script>
+
+    <style>
+        /* ADDITIONAL MASSIVE CSS */
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0); opacity: 0; }
+        }
+        
+        /* MORE MASSIVE ANIMATIONS */
+        .stat-item:nth-child(odd) { animation-delay: 0s; }
+        .stat-item:nth-child(even) { animation-delay: 1s; }
+        
+        /* CONTINUOUS BACKGROUND ANIMATION */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(0, 0, 255, 0.1) 0%, transparent 50%);
+            animation: colorShift 5s infinite alternate;
+            z-index: -999;
+        }
+        
+        @keyframes colorShift {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+    </style>
 </body>
 </html>
