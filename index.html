@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥷 Ninxha Warriors</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            color: white;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        #gameUI {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            text-align: center;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+        }
+        
+        .stat-item {
+            background: rgba(138, 43, 226, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #8A2BE2;
+        }
+        
+        #gameCanvas {
+            border: 3px solid #8A2BE2;
+            border-radius: 15px;
+            background: #0f3460;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+        }
+        
+        #instructions {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid #FFD700;
+        }
+        
+        .combo {
+            color: #FFD700;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="gameUI">
+            <h2>🥷 Ninxha Warriors</h2>
+            <div class="stats">
+                <div class="stat-item">🏆 Level: <span id="level">1</span></div>
+                <div class="stat-item">❤️ Health: <span id="health">100</span></div>
+                <div class="stat-item">⚔️ Kills: <span id="kills">0</span></div>
+            </div>
+            <div id="comboDisplay" style="display: none;">
+                🔥 Combo: <span id="combo" class="combo">1x</span>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="360" height="600"></canvas>
+        
+        <div id="instructions">
+            👆 Prek dhe lëviz për të luajtur! 🎯
+        </div>
+    </div>
+
+    <script>
+        // Konfigurimi i lojës
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Variablat e lojës
+        let ninja = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            size: 30,
+            health: 100,
+            maxHealth: 100,
+            level: 1,
+            kills: 0,
+            color: '#8A2BE2',
+            speed: 5
+        };
+        
+        let enemies = [];
+        let bullets = [];
+        let particles = [];
+        let combo = 1;
+        let comboTime = 0;
+        let touchX = ninja.x;
+        let touchY = ninja.y;
+        
+        // Kontrolli me prekje
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            touchX = touch.clientX - rect.left;
+            touchY = touch.clientY - rect.top;
+        });
+        
+        // Krijimi i imazheve
+        function createNinja() {
+            const offscreen = document.createElement('canvas');
+            offscreen.width = ninja.size;
+            offscreen.height = ninja.size;
+            const octx = offscreen.getContext('2d');
+            
+            // Trupi i ninxhasë
+            octx.fillStyle = ninja.color;
+            octx.fillRect(5, 5, 20, 20);
+            
+            // Sy
+            octx.fillStyle = 'white';
+            octx.fillRect(8, 8, 4, 4);
+            octx.fillRect(18, 8, 4, 4);
+            
+            // Maskë
+            octx.strokeStyle = '#FF69B4';
+            octx.lineWidth = 2;
+            octx.beginPath();
+            octx.moveTo(5, 7);
+            octx.lineTo(25, 7);
+            octx.stroke();
+            
+            return offscreen;
+        }
+        
+        function createEnemy(type) {
+            const offscreen = document.createElement('canvas');
+            offscreen.width = 25;
+            offscreen.height = 25;
+            const octx = offscreen.getContext('2d');
+            
+            const colors = {
+                samurai: '#B22222',
+                ninja: '#2F4F4F',
+                ronin: '#8B4513'
+            };
+            
+            octx.fillStyle = colors[type] || '#B22222';
+            octx.fillRect(2, 2, 21, 21);
+            
+            return offscreen;
+        }
+        
+        // Sulmi automatik
+        function autoAttack() {
+            if (enemies.length > 0) {
+                const nearest = enemies.reduce((nearest, enemy) => {
+                    const dist = Math.hypot(ninja.x - enemy.x, ninja.y - enemy.y);
+                    return dist < nearest.dist ? { enemy, dist } : nearest;
+                }, { enemy: enemies[0], dist: Infinity });
+                
+                const angle = Math.atan2(nearest.enemy.y - ninja.y, nearest.enemy.x - ninja.x);
+                
+                bullets.push({
+                    x: ninja.x,
+                    y: ninja.y,
+                    vx: Math.cos(angle) * 8,
+                    vy: Math.sin(angle) * 8,
+                    damage: 10 * combo
+                });
+                
+                // Efekt sulmi
+                particles.push({
+                    x: ninja.x,
+                    y: ninja.y,
+                    size: 5,
+                    color: '#FF69B4',
+                    life: 10
+                });
+            }
+        }
+        
+        // Përditësimi i lojës
+        function update() {
+            // Lëvizja e ninxhasë
+            const dx = touchX - ninja.x;
+            const dy = touchY - ninja.y;
+            const dist = Math.hypot(dx, dy);
+            
+            if (dist > ninja.speed) {
+                ninja.x += (dx / dist) * ninja.speed;
+                ninja.y += (dy / dist) * ninja.speed;
+            }
+            
+            // Kufijtë e ekranit
+            ninja.x = Math.max(ninja.size, Math.min(canvas.width - ninja.size, ninja.x));
+            ninja.y = Math.max(ninja.size, Math.min(canvas.height - ninja.size, ninja.y));
+            
+            // Shto armikë të rinj
+            if (Math.random() < 0.02 && enemies.length < 3 + ninja.level) {
+                const types = ['samurai', 'ninja', 'ronin'];
+                const type = types[Math.floor(Math.random() * types.length)];
+                
+                let x, y;
+                const side = Math.floor(Math.random() * 4);
+                
+                switch(side) {
+                    case 0: x = -25; y = Math.random() * canvas.height; break;
+                    case 1: x = canvas.width + 25; y = Math.random() * canvas.height; break;
+                    case 2: x = Math.random() * canvas.width; y = -25; break;
+                    case 3: x = Math.random() * canvas.width; y = canvas.height + 25; break;
+                }
+                
+                enemies.push({
+                    x: x,
+                    y: y,
+                    type: type,
+                    health: 30 + ninja.level * 5,
+                    maxHealth: 30 + ninja.level * 5,
+                    speed: 1 + Math.random() * 1.5,
+                    image: createEnemy(type)
+                });
+            }
+            
+            // Përditësimi i armikëve
+            enemies.forEach((enemy, eIndex) => {
+                // Lëvizja drejt ninxhasë
+                const edx = ninja.x - enemy.x;
+                const edy = ninja.y - enemy.y;
+                const edist = Math.hypot(edx, edy);
+                
+                enemy.x += (edx / edist) * enemy.speed;
+                enemy.y += (edy / edist) * enemy.speed;
+                
+                // Goditja e ninxhasë
+                if (edist < ninja.size/2 + 12) {
+                    ninja.health -= 0.3;
+                    document.getElementById('health').textContent = Math.floor(ninja.health);
+                    
+                    if (ninja.health <= 0) {
+                        gameOver();
+                    }
+                }
+                
+                // Fshi armikët jashtë ekranit
+                if (enemy.x < -50 || enemy.x > canvas.width + 50 || 
+                    enemy.y < -50 || enemy.y > canvas.height + 50) {
+                    enemies.splice(eIndex, 1);
+                }
+            });
+            
+            // Përditësimi i plumbave
+            bullets.forEach((bullet, bIndex) => {
+                bullet.x += bullet.vx;
+                bullet.y += bullet.vy;
+                
+                // Kontrollo goditjet
+                enemies.forEach((enemy, eIndex) => {
+                    const dist = Math.hypot(bullet.x - enemy.x, bullet.y - enemy.y);
+                    if (dist < 20) {
+                        enemy.health -= bullet.damage;
+                        bullets.splice(bIndex, 1);
+                        
+                        // Efekt goditje
+                        particles.push({
+                            x: bullet.x,
+                            y: bullet.y,
+                            size: 8,
+                            color: '#FF4500',
+                            life: 15
+                        });
+                        
+                        if (enemy.health <= 0) {
+                            enemies.splice(eIndex, 1);
+                            ninja.kills++;
+                            combo++;
+                            comboTime = 180;
+                            
+                            document.getElementById('kills').textContent = ninja.kills;
+                            document.getElementById('combo').textContent = combo + 'x';
+                            document.getElementById('comboDisplay').style.display = 'block';
+                            
+                            // Level up
+                            if (ninja.kills % 5 === 0) {
+                                levelUp();
+                            }
+                            
+                            // Efekt vdekje
+                            for (let i = 0; i < 8; i++) {
+                                particles.push({
+                                    x: enemy.x,
+                                    y: enemy.y,
+                                    vx: (Math.random() - 0.5) * 4,
+                                    vy: (Math.random() - 0.5) * 4,
+                                    size: Math.random() * 3 + 1,
+                                    color: '#FF0000',
+                                    life: 30
+                                });
+                            }
+                        }
+                    }
+                });
+                
+                // Fshi plumbat jashtë ekranit
+                if (bullet.x < -20 || bullet.x > canvas.width + 20 || 
+                    bullet.y < -20 || bullet.y > canvas.height + 20) {
+                    bullets.splice(bIndex, 1);
+                }
+            });
+            
+            // Përditësimi i combo
+            if (comboTime > 0) {
+                comboTime--;
+            } else if (combo > 1) {
+                combo = 1;
+                document.getElementById('comboDisplay').style.display = 'none';
+            }
+            
+            // Përditësimi i partikujve
+            particles.forEach((particle, pIndex) => {
+                if (particle.vx) {
+                    particle.x += particle.vx;
+                    particle.y += particle.vy;
+                }
+                particle.life--;
+                
+                if (particle.life <= 0) {
+                    particles.splice(pIndex, 1);
+                }
+            });
+            
+            // Sulmi automatik
+            if (Math.random() < 0.05) {
+                autoAttack();
+            }
+        }
+        
+        // Level up
+        function levelUp() {
+            ninja.level++;
+            ninja.maxHealth += 10;
+            ninja.health = ninja.maxHealth;
+            document.getElementById('level').textContent = ninja.level;
+            document.getElementById('health').textContent = ninja.health;
+            
+            // Efekt level up
+            for (let i = 0; i < 12; i++) {
+                particles.push({
+                    x: ninja.x,
+                    y: ninja.y,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 6,
+                    size: Math.random() * 4 + 2,
+                    color: '#00FF7F',
+                    life: 40
+                });
+            }
+        }
+        
+        // Game over
+        function gameOver() {
+            ninja.health = ninja.maxHealth;
+            ninja.level = 1;
+            ninja.kills = 0;
+            enemies = [];
+            bullets = [];
+            combo = 1;
+            
+            document.getElementById('level').textContent = '1';
+            document.getElementById('health').textContent = '100';
+            document.getElementById('kills').textContent = '0';
+            document.getElementById('comboDisplay').style.display = 'none';
+        }
+        
+        // Vizatimi
+        function draw() {
+            // Sfondi
+            ctx.fillStyle = '#0f3460';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Vizato partikujt
+            particles.forEach(particle => {
+                ctx.globalAlpha = particle.life / 30;
+                ctx.fillStyle = particle.color;
+                ctx.fillRect(
+                    particle.x - particle.size/2,
+                    particle.y - particle.size/2,
+                    particle.size,
+                    particle.size
+                );
+            });
+            ctx.globalAlpha = 1;
+            
+            // Vizato armikët
+            enemies.forEach(enemy => {
+                ctx.drawImage(enemy.image, enemy.x - 12, enemy.y - 12);
+                
+                // Health bar
+                const healthPercent = enemy.health / enemy.maxHealth;
+                ctx.fillStyle = '#333';
+                ctx.fillRect(enemy.x - 15, enemy.y - 20, 30, 3);
+                ctx.fillStyle = healthPercent > 0.6 ? '#32CD32' : 
+                               healthPercent > 0.3 ? '#FFA500' : '#FF0000';
+                ctx.fillRect(enemy.x - 15, enemy.y - 20, 30 * healthPercent, 3);
+            });
+            
+            // Vizato plumbat
+            ctx.fillStyle = '#FFD700';
+            bullets.forEach(bullet => {
+                ctx.fillRect(bullet.x - 2, bullet.y - 2, 4, 4);
+            });
+            
+            // Vizato ninxhan
+            const ninjaImg = createNinja();
+            ctx.drawImage(ninjaImg, ninja.x - ninja.size/2, ninja.y - ninja.size/2);
+        }
+        
+        // Loop i lojës
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+        
+        // Fillo lojën
+        gameLoop();
+    </script>
+</body>
+</html>
