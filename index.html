@@ -3,550 +3,634 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🥷 NINXHA W211 - ULTRA HD 4K</title>
+    <title>🥷 Coin Ninxha - Master Warrior</title>
     
-    <!-- MASSIVE CSS LOAD -->
+    <!-- COIN MASTER STYLE CSS -->
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', Arial, sans-serif;
         }
         
-        /* GIANT CSS THAT TAKES MEMORY */
         body {
-            background: linear-gradient(135deg, 
-                #1a1a2e, #16213e, #0f3460, #1a1a2e, 
-                #16213e, #0f3460, #1a1a2e, #16213e,
-                #0f3460, #1a1a2e, #16213e, #0f3460);
-            font-family: 'Arial', sans-serif;
-            overflow: hidden;
-            touch-action: none;
-            color: white;
-            perspective: 1000px;
-            transform-style: preserve-3d;
-            animation: backgroundShift 10s infinite linear;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #ffeaa7);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            overflow-x: hidden;
+            color: #2d3436;
         }
 
-        @keyframes backgroundShift {
-            0% { background-position: 0% 0%; }
-            100% { background-position: 100% 100%; }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* MASSIVE 3D BACKGROUND */
-        #massiveBackground {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1000;
-            overflow: hidden;
-        }
-
-        .particle3d {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            background: rgba(138, 43, 226, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            animation: float3d 20s infinite linear;
-            transform-style: preserve-3d;
-        }
-
-        /* CREATE 1000 3D PARTICLES FOR MEMORY USAGE */
-        .particle3d:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; transform: translateZ(-1000px); }
-        .particle3d:nth-child(2) { top: 20%; left: 15%; animation-delay: 1s; transform: translateZ(-800px); }
-        .particle3d:nth-child(3) { top: 30%; left: 25%; animation-delay: 2s; transform: translateZ(-600px); }
-        /* ... would continue to 1000 particles ... */
-
-        @keyframes float3d {
-            0% { transform: translateZ(-1000px) rotateX(0deg) rotateY(0deg); }
-            100% { transform: translateZ(1000px) rotateX(360deg) rotateY(360deg); }
-        }
-
-        #gameContainer {
-            position: relative;
-            width: 100vw;
-            height: 100vh;
+        /* COIN MASTER HEADER */
+        #cmHeader {
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0, #fd79a8);
+            padding: 15px 20px;
+            border-bottom: 5px solid #e17055;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             display: flex;
-            flex-direction: column;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            z-index: 1000;
+            position: relative;
         }
 
-        /* MASSIVE UI WITH MANY ELEMENTS */
-        #gameUI {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .cmLogo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2d3436;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .cmCoins {
+            background: linear-gradient(135deg, #fdcb6e, #e17055);
+            padding: 8px 15px;
+            border-radius: 25px;
+            border: 3px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-weight: bold;
+            color: #2d3436;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* VILLAGE CONTAINER LIKE COIN MASTER */
+        #villageContainer {
+            position: relative;
             width: 100%;
-            padding: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
-            display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 10px;
+            height: 60vh;
+            background: linear-gradient(180deg, #74b9ff, #0984e3);
+            overflow: hidden;
+            border-bottom: 10px solid #e17055;
         }
 
-        .stat-item {
-            background: linear-gradient(45deg, 
-                rgba(138, 43, 226, 0.8), 
-                rgba(255, 105, 180, 0.8),
-                rgba(138, 43, 226, 0.8));
-            padding: 15px;
-            border-radius: 15px;
-            border: 2px solid gold;
-            text-align: center;
-            animation: statPulse 2s infinite;
-        }
-
-        @keyframes statPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 10px gold; }
-            50% { transform: scale(1.05); box-shadow: 0 0 20px #FF69B4; }
-        }
-
-        #gameCanvas {
-            border: 5px solid;
-            border-image: linear-gradient(45deg, gold, purple, cyan, gold) 1;
-            border-radius: 20px;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 105, 180, 0.3) 0%, transparent 50%),
-                linear-gradient(45deg, #0f3460, #1a1a2e, #16213e, #0f3460);
-            box-shadow: 
-                0 0 50px rgba(138, 43, 226, 0.7),
-                0 0 100px rgba(255, 215, 0, 0.5),
-                inset 0 0 50px rgba(255, 105, 180, 0.3);
-        }
-
-        /* MASSIVE CONTROLS SECTION */
-        #controls {
+        .villageBackground {
             position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 234, 167, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(253, 203, 110, 0.3) 0%, transparent 50%);
+        }
+
+        .building {
+            position: absolute;
+            background: linear-gradient(135deg, #fab1a0, #e17055);
+            border: 3px solid #ffeaa7;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .building:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        .building.level-max {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            border-color: #ffeaa7;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 8px 25px rgba(0,0,0,0.3); }
+            50% { box-shadow: 0 8px 35px rgba(232, 67, 147, 0.6); }
+        }
+
+        /* SPIN WHEEL - IDENTIKE ME COIN MASTER */
+        #spinContainer {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            z-index: 1000;
+        }
+
+        .spinWheel {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+            border: 10px solid #e17055;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transition: transform 3s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        .spinButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b6b, #e17055);
+            border: 5px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+            z-index: 1001;
+        }
+
+        .spinButton:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .wheelSegment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+            background: linear-gradient(135deg, var(--color1), var(--color2));
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* BOTTOM NAV - IDENTIKE */
+        #bottomNav {
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
+            background: linear-gradient(135deg, #2d3436, #636e72);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 10px;
+            border-top: 5px solid #fdcb6e;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
             z-index: 1000;
-            border-top: 3px solid gold;
         }
 
-        .control-btn {
-            background: linear-gradient(45deg, 
-                #8A2BE2, #4B0082, #9400D3, #8A2BE2);
-            border: 2px solid gold;
+        .navItem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             color: white;
-            padding: 20px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
-            animation: btnGlow 3s infinite;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 15px;
         }
 
-        .control-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, 
-                transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: shine 2s infinite;
+        .navItem:hover {
+            background: rgba(253, 203, 110, 0.2);
+            transform: translateY(-5px);
         }
 
-        @keyframes btnGlow {
-            0%, 100% { box-shadow: 0 0 20px #8A2BE2; }
-            50% { box-shadow: 0 0 30px gold, 0 0 40px #FF69B4; }
+        .navIcon {
+            font-size: 24px;
+            margin-bottom: 5px;
         }
 
-        @keyframes shine {
-            0% { transform: rotate(45deg) translateX(-100%); }
-            100% { transform: rotate(45deg) translateX(100%); }
+        .navText {
+            font-size: 12px;
+            font-weight: bold;
         }
 
-        .control-btn:hover {
-            transform: scale(1.1);
-            background: linear-gradient(45deg, 
-                #FFD700, #FF8C00, #FFD700);
-            color: black;
-        }
-
-        /* MASSIVE AD CONTAINERS */
-        .ad-container {
-            background: linear-gradient(45deg, 
-                #FF6B6B, #FFD700, #00FF7F, #FF6B6B);
-            border: 3px solid white;
-            padding: 25px;
-            margin: 15px;
+        /* CARDS COLLECTION - COIN MASTER STYLE */
+        #cardsContainer {
+            background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+            margin: 20px;
+            padding: 20px;
             border-radius: 20px;
+            border: 5px solid #ffeaa7;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        .cardSlot {
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px dashed #ffeaa7;
+            border-radius: 15px;
+            padding: 15px;
+            margin: 10px;
+            display: inline-block;
+            width: 100px;
+            height: 140px;
             text-align: center;
             cursor: pointer;
-            animation: adPulse 1.5s infinite;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        @keyframes adPulse {
+        .cardSlot:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.05);
+        }
+
+        /* ADS CONTAINERS - COIN MASTER STYLE */
+        .adOffer {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            margin: 15px;
+            padding: 20px;
+            border-radius: 20px;
+            border: 4px solid #ffeaa7;
+            text-align: center;
+            color: white;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .adOffer:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 35px rgba(0,0,0,0.4);
+        }
+
+        .adOffer.hot {
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
 
-        .ad-container::after {
-            content: '🔥 HOT! 🔥';
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            background: #FF4500;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 10px;
-            font-size: 12px;
-            font-weight: bold;
-            transform: rotate(15deg);
-            animation: hotPulse 0.5s infinite;
+        /* LEVEL PROGRESS - COIN MASTER STYLE */
+        #levelProgress {
+            background: linear-gradient(135deg, #dfe6e9, #b2bec3);
+            margin: 20px;
+            padding: 15px;
+            border-radius: 25px;
+            border: 4px solid #fdcb6e;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
         }
 
-        @keyframes hotPulse {
-            0%, 100% { transform: rotate(15deg) scale(1); }
-            50% { transform: rotate(15deg) scale(1.1); }
+        .progressBar {
+            width: 100%;
+            height: 20px;
+            background: #636e72;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progressFill {
+            height: 100%;
+            background: linear-gradient(90deg, #00b894, #00cec9, #0984e3);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* FRIENDS & SOCIAL - COIN MASTER STYLE */
+        #friendsContainer {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+            margin: 20px;
+            padding: 20px;
+            border-radius: 20px;
+            border: 5px solid #ffeaa7;
+            color: white;
+        }
+
+        .friendItem {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .friendItem:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(10px);
+        }
+
+        .friendAvatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            border-radius: 50%;
+            border: 3px solid white;
         }
     </style>
 </head>
 <body>
-    <!-- MASSIVE 3D BACKGROUND -->
-    <div id="massiveBackground">
-        <!-- 1000+ 3D elements for memory usage -->
-        <div class="particle3d"></div>
-        <div class="particle3d"></div>
-        <div class="particle3d"></div>
-        <!-- ... would continue many more ... -->
+    <!-- HEADER IDENTIKE ME COIN MASTER -->
+    <div id="cmHeader">
+        <div class="cmLogo">🥷 COIN NINXHA</div>
+        <div class="cmCoins">
+            🪙 <span id="coinsValue">15,827</span>
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <div class="cmCoins" style="background: linear-gradient(135deg, #74b9ff, #0984e3);">
+                ⚡ <span id="spinsValue">85</span>
+            </div>
+            <div class="cmCoins" style="background: linear-gradient(135deg, #a29bfe, #6c5ce7);">
+                🎴 <span id="cardsValue">42</span>
+            </div>
+        </div>
     </div>
 
-    <div id="gameContainer">
-        <!-- MASSIVE UI WITH MANY STATS -->
-        <div id="gameUI">
-            <div class="stat-item">🏆 LEVEL: <span id="level">17</span></div>
-            <div class="stat-item">❤️ HEALTH: <span id="health">100/100</span></div>
-            <div class="stat-item">⚔️ POWER: <span id="power">250%</span></div>
-            <div class="stat-item">💰 COINS: <span id="coins">9999</span></div>
-            <div class="stat-item">💎 GEMS: <span id="gems">500</span></div>
-            <div class="stat-item">⭐ XP: <span id="xp">15000/20000</span></div>
-            <div class="stat-item">🎯 ACCURACY: <span id="accuracy">98%</span></div>
-            <div class="stat-item">⚡ ENERGY: <span id="energy">65/60</span></div>
-            <div class="stat-item">🛡️ DEFENSE: <span id="defense">300%</span></div>
-            <div class="stat-item">🔥 COMBO: <span id="combo">15x</span></div>
-            <div class="stat-item">🎪 STREAK: <span id="streak">25</span></div>
-            <div class="stat-item">👑 RANK: <span id="rank">#1</span></div>
+    <!-- VILLAGE CONTAINER -->
+    <div id="villageContainer">
+        <div class="villageBackground"></div>
+        
+        <!-- BUILDINGS LIKE COIN MASTER -->
+        <div class="building" style="top: 50%; left: 20%; width: 80px; height: 120px;">
+            🏠 Level 5
         </div>
+        <div class="building" style="top: 40%; left: 40%; width: 100px; height: 140px;">
+            🏯 Level 8
+        </div>
+        <div class="building level-max" style="top: 60%; left: 60%; width: 90px; height: 130px;">
+            🏰 MAX
+        </div>
+        <div class="building" style="top: 35%; left: 75%; width: 70px; height: 110px;">
+            🏡 Level 3
+        </div>
+    </div>
+
+    <!-- SPIN WHEEL - IDENTIKE -->
+    <div id="spinContainer">
+        <div class="spinWheel" id="spinWheel">
+            <!-- Wheel segments will be generated by JavaScript -->
+        </div>
+        <div class="spinButton" onclick="spinWheel()">
+            SPIN!
+        </div>
+    </div>
+
+    <!-- BOTTOM NAVIGATION - IDENTIKE -->
+    <div id="bottomNav">
+        <div class="navItem" onclick="showVillage()">
+            <div class="navIcon">🏠</div>
+            <div class="navText">Village</div>
+        </div>
+        <div class="navItem" onclick="showCards()">
+            <div class="navIcon">🎴</div>
+            <div class="navText">Cards</div>
+        </div>
+        <div class="navItem" onclick="showFriends()">
+            <div class="navIcon">👥</div>
+            <div class="navText">Friends</div>
+        </div>
+        <div class="navItem" onclick="showShop()">
+            <div class="navIcon">🛍️</div>
+            <div class="navText">Shop</div>
+        </div>
+        <div class="navItem" onclick="showEvents()">
+            <div class="navIcon">🎪</div>
+            <div class="navText">Events</div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT AREA -->
+    <div style="padding: 20px; padding-bottom: 150px;">
         
-        <!-- MAIN GAME CANVAS -->
-        <canvas id="gameCanvas" width="800" height="1000"></canvas>
-        
-        <!-- MASSIVE AD CONTAINERS -->
-        <div class="ad-container" onclick="watchAd('ultra')">
-            <h2>🎁 ULTRA MEGA PACK! 🎁</h2>
-            <p>💰 10,000 COINS + 💎 500 GEMS</p>
-            <p>⚡ UNLIMITED ENERGY FOR 24H</p>
-            <p>🎯 ALL WEAPONS UNLOCKED</p>
-            <button class="control-btn" style="background: linear-gradient(45deg, #FF0000, #FF4500);">
-                🔥 WATCH AD NOW! 🔥
+        <!-- LEVEL PROGRESS -->
+        <div id="levelProgress">
+            <h3>🏆 Level 17 Progress</h3>
+            <div class="progressBar">
+                <div class="progressFill" style="width: 65%;"></div>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+                <span>65/100 Villages</span>
+                <span>Next: 5,000 Coins</span>
+            </div>
+        </div>
+
+        <!-- ADS OFFERS - COIN MASTER STYLE -->
+        <div class="adOffer hot" onclick="watchAd('spins')">
+            <h3>🎁 FREE SPINS! 🎁</h3>
+            <p>Watch ad for <strong>10 FREE SPINS</strong></p>
+            <p>🪙 +5,000 Bonus Coins</p>
+            <button style="background: linear-gradient(135deg, #ffeaa7, #fdcb6e); border: none; padding: 10px 20px; border-radius: 20px; font-weight: bold; margin-top: 10px; cursor: pointer;">
+                📺 WATCH AD NOW
             </button>
         </div>
 
-        <!-- MASSIVE CONTROLS -->
-        <div id="controls">
-            <button class="control-btn" onclick="megaAttack()">💥 MEGA ATTACK</button>
-            <button class="control-btn" onclick="ultraDefense()">🛡️ ULTRA DEFENSE</button>
-            <button class="control-btn" onclick="superSpecial()">🌟 SUPER SPECIAL</button>
-            <button class="control-btn" onclick="watchAd('coins')">💰 +10K COINS</button>
-            <button class="control-btn" onclick="watchAd('gems')">💎 +500 GEMS</button>
-            <button class="control-btn" onclick="watchAd('energy')">⚡ INFINITE ENERGY</button>
-            <button class="control-btn" onclick="watchAd('weapons')">🗡️ ALL WEAPONS</button>
-            <button class="control-btn" onclick="watchAd('premium')">👑 PREMIUM PACK</button>
+        <div class="adOffer" onclick="watchAd('coins')">
+            <h3>💰 MEGA COIN PACK! 💰</h3>
+            <p>Limited time offer!</p>
+            <p>🪙 <strong>50,000 COINS</strong> + 🎴 20 Cards</p>
+            <button style="background: linear-gradient(135deg, #00b894, #00cec9); border: none; padding: 10px 20px; border-radius: 20px; color: white; font-weight: bold; margin-top: 10px; cursor: pointer;">
+                🎯 CLAIM OFFER
+            </button>
         </div>
+
+        <!-- CARDS COLLECTION -->
+        <div id="cardsContainer">
+            <h3 style="color: white; text-align: center;">🎴 Card Collection</h3>
+            <div style="text-align: center;">
+                <div class="cardSlot">⭐ Rare</div>
+                <div class="cardSlot">🔥 Epic</div>
+                <div class="cardSlot">💎 Legendary</div>
+                <div class="cardSlot">👑 Mythic</div>
+            </div>
+        </div>
+
+        <!-- FRIENDS CONTAINER -->
+        <div id="friendsContainer">
+            <h3>👥 Friends & Crew</h3>
+            <div class="friendItem">
+                <div class="friendAvatar"></div>
+                <div>
+                    <strong>WarriorMaster</strong>
+                    <div>Level 25 • 1.2M Coins</div>
+                </div>
+            </div>
+            <div class="friendItem">
+                <div class="friendAvatar"></div>
+                <div>
+                    <strong>CoinHunter</strong>
+                    <div>Level 19 • 850K Coins</div>
+                </div>
+            </div>
+            <button style="background: rgba(255,255,255,0.3); border: 2px solid white; color: white; padding: 10px 20px; border-radius: 20px; font-weight: bold; margin-top: 10px; cursor: pointer; width: 100%;">
+                👋 INVITE FRIENDS
+            </button>
+        </div>
+
     </div>
 
     <script>
-        // ==================== MASSIVE MEMORY USAGE ====================
-        
-        // CREATE GIANT ARRAYS FOR MEMORY
-        let massiveData = {
-            particles: new Array(10000).fill(null).map((_, i) => ({
-                id: i,
-                x: Math.random() * 10000,
-                y: Math.random() * 10000,
-                z: Math.random() * 10000,
-                color: `rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255})`,
-                size: Math.random() * 100,
-                velocity: {
-                    x: (Math.random() - 0.5) * 10,
-                    y: (Math.random() - 0.5) * 10,
-                    z: (Math.random() - 0.5) * 10
-                }
-            })),
-            
-            gameObjects: new Array(5000).fill(null).map((_, i) => ({
-                type: ['enemy', 'item', 'powerup', 'obstacle'][Math.floor(Math.random() * 4)],
-                position: { x: Math.random() * 5000, y: Math.random() * 5000 },
-                data: new Array(100).fill(Math.random())
-            })),
-            
-            playerData: {
-                inventory: new Array(1000).fill(null).map((_, i) => ({
-                    id: i,
-                    name: `Item_${i}_Ultra_Rare_${Math.random().toString(36).substr(2, 9)}`,
-                    stats: new Array(50).fill(Math.random() * 1000),
-                    modifiers: new Array(20).fill({ type: 'boost', value: Math.random() * 100 })
-                })),
-                
-                achievements: new Array(500).fill(null).map((_, i) => ({
-                    id: i,
-                    name: `Achievement_${i}_Legendary`,
-                    progress: Math.random() * 100,
-                    rewards: new Array(10).fill({ type: 'coin', amount: Math.random() * 1000 })
-                }))
-            }
-        };
-
-        // MASSIVE GAME STATE
-        let gameState = {
+        // COIN MASTER GAME DATA
+        const gameData = {
+            coins: 15827,
+            spins: 85,
+            cards: 42,
             level: 17,
-            health: 100,
-            maxHealth: 100,
-            power: 250,
-            coins: 9999,
-            gems: 500,
-            xp: 15000,
-            xpNeeded: 20000,
-            accuracy: 98,
-            energy: 65,
-            maxEnergy: 60,
-            defense: 300,
-            combo: 15,
-            streak: 25,
-            rank: 1,
-            
-            // MASSIVE ARRAYS FOR MEMORY
-            enemies: new Array(1000).fill(null).map(() => ({
-                type: 'ultra_boss',
-                health: 10000,
-                damage: 500,
-                position: { x: Math.random() * 800, y: Math.random() * 1000 },
-                data: new Array(100).fill(Math.random())
-            })),
-            
-            bullets: new Array(500).fill(null).map(() => ({
-                type: 'mega_laser',
-                damage: 1000,
-                position: { x: Math.random() * 800, y: Math.random() * 1000 },
-                trail: new Array(50).fill({ x: 0, y: 0 })
-            })),
-            
-            effects: new Array(2000).fill(null).map(() => ({
-                type: 'epic_explosion',
-                particles: new Array(100).fill({
-                    position: { x: Math.random() * 100, y: Math.random() * 100 },
-                    velocity: { x: (Math.random() - 0.5) * 20, y: (Math.random() - 0.5) * 20 },
-                    life: Math.random() * 100
-                })
-            }))
+            villageProgress: 65,
+            friends: [
+                { name: "WarriorMaster", level: 25, coins: 1200000 },
+                { name: "CoinHunter", level: 19, coins: 850000 }
+            ],
+            currentVillage: 1,
+            totalVillages: 100
         };
 
-        // MASSIVE GAME FUNCTIONS
-        function megaAttack() {
-            // CREATE MASSIVE ATTACK DATA
-            let attackData = new Array(1000).fill(null).map(() => ({
-                damage: Math.random() * 10000,
-                position: { x: Math.random() * 800, y: Math.random() * 1000 },
-                effects: new Array(100).fill(Math.random())
-            }));
+        // WHEEL PRIZES LIKE COIN MASTER
+        const wheelPrizes = [
+            { type: 'coins', amount: 1000, color1: '#fdcb6e', color2: '#e17055' },
+            { type: 'spins', amount: 5, color1: '#74b9ff', color2: '#0984e3' },
+            { type: 'cards', amount: 3, color1: '#a29bfe', color2: '#6c5ce7' },
+            { type: 'coins', amount: 500, color1: '#fdcb6e', color2: '#e17055' },
+            { type: 'spins', amount: 3, color1: '#74b9ff', color2: '#0984e3' },
+            { type: 'coins', amount: 2000, color1: '#00b894', color2: '#00cec9' },
+            { type: 'cards', amount: 5, color1: '#a29bfe', color2: '#6c5ce7' },
+            { type: 'spins', amount: 10, color1: '#fd79a8', color2: '#e84393' }
+        ];
+
+        // INITIALIZE WHEEL
+        function initializeWheel() {
+            const wheel = document.getElementById('spinWheel');
+            wheel.innerHTML = '';
             
-            gameState.enemies.forEach(enemy => {
-                enemy.health -= 1000;
+            wheelPrizes.forEach((prize, index) => {
+                const segment = document.createElement('div');
+                segment.className = 'wheelSegment';
+                segment.style.setProperty('--color1', prize.color1);
+                segment.style.setProperty('--color2', prize.color2);
+                segment.style.transform = `rotate(${index * 45}deg)`;
+                segment.innerHTML = `
+                    <div style="transform: rotate(45deg); text-align: center;">
+                        ${getPrizeIcon(prize.type)}<br>
+                        ${prize.amount}
+                    </div>
+                `;
+                wheel.appendChild(segment);
             });
-            
-            updateGame();
-            showMassiveEffect('💥 MEGA ATTACK!');
         }
 
-        function ultraDefense() {
-            gameState.defense += 100;
-            gameState.health = gameState.maxHealth;
-            updateGame();
-            showMassiveEffect('🛡️ ULTRA DEFENSE!');
+        function getPrizeIcon(type) {
+            switch(type) {
+                case 'coins': return '🪙';
+                case 'spins': return '⚡';
+                case 'cards': return '🎴';
+                default: return '🎁';
+            }
         }
 
-        function superSpecial() {
-            gameState.power *= 2;
-            gameState.combo += 10;
-            gameState.streak += 10;
-            updateGame();
-            showMassiveEffect('🌟 SUPER SPECIAL!');
-        }
+        // SPIN WHEEL FUNCTION
+        function spinWheel() {
+            if (gameData.spins < 1) {
+                alert('No spins left! Watch an ad for more spins.');
+                return;
+            }
 
-        // MASSIVE AD SYSTEM
-        function watchAd(type) {
-            let rewards = {
-                'coins': { amount: 10000, message: '💰 +10,000 COINS!' },
-                'gems': { amount: 500, message: '💎 +500 GEMS!' },
-                'energy': { amount: 9999, message: '⚡ INFINITE ENERGY!' },
-                'weapons': { message: '🗡️ ALL WEAPONS UNLOCKED!' },
-                'premium': { message: '👑 PREMIUM STATUS ACTIVATED!' },
-                'ultra': { 
-                    coins: 10000, 
-                    gems: 500, 
-                    message: '🎁 ULTRA MEGA PACK UNLOCKED!' 
+            gameData.spins--;
+            updateUI();
+
+            const wheel = document.getElementById('spinWheel');
+            const randomPrize = wheelPrizes[Math.floor(Math.random() * wheelPrizes.length)];
+            const spinDegrees = 1440 + (Math.random() * 360); // Multiple full rotations
+
+            wheel.style.transform = `rotate(${spinDegrees}deg)`;
+
+            setTimeout(() => {
+                // Award prize
+                switch(randomPrize.type) {
+                    case 'coins':
+                        gameData.coins += randomPrize.amount;
+                        break;
+                    case 'spins':
+                        gameData.spins += randomPrize.amount;
+                        break;
+                    case 'cards':
+                        gameData.cards += randomPrize.amount;
+                        break;
                 }
+
+                updateUI();
+                alert(`🎉 You won: ${randomPrize.amount} ${randomPrize.type.toUpperCase()}!`);
+            }, 3000);
+        }
+
+        // AD WATCHING SYSTEM
+        function watchAd(type) {
+            const adRewards = {
+                'spins': { spins: 10, coins: 5000, message: '10 FREE SPINS + 5,000 COINS!' },
+                'coins': { coins: 50000, cards: 20, message: '50,000 COINS + 20 CARDS!' }
             };
-            
-            let reward = rewards[type];
-            
-            if (confirm(`📺 WATCH AD FOR:\n${reward.message}\n\nClick OK to watch!`)) {
-                // SIMULATE AD VIEW
+
+            const reward = adRewards[type];
+
+            if (confirm(`📺 Watch a short ad for:\n${reward.message}\n\nClick OK to watch!`)) {
                 setTimeout(() => {
-                    if (reward.coins) gameState.coins += reward.coins;
-                    if (reward.gems) gameState.gems += reward.gems;
-                    if (reward.amount) gameState.coins += reward.amount;
-                    
-                    if (type === 'energy') gameState.energy = 9999;
-                    if (type === 'premium') gameState.power *= 2;
-                    
-                    updateGame();
+                    if (reward.spins) gameData.spins += reward.spins;
+                    if (reward.coins) gameData.coins += reward.coins;
+                    if (reward.cards) gameData.cards += reward.cards;
+
+                    updateUI();
                     alert(`🎉 REWARD CLAIMED!\n${reward.message}`);
-                    
-                    // TRACK REVENUE
-                    trackMassiveRevenue(0.10); // $0.10 per ad
-                    
+
+                    // Track revenue
+                    trackAdRevenue(0.08);
                 }, 3000);
             }
         }
 
-        function trackMassiveRevenue(amount) {
-            console.log(`💰 MASSIVE REVENUE: $${amount}`);
-            // In real implementation: AdMob, Unity Ads, etc.
+        function trackAdRevenue(amount) {
+            console.log(`💰 Ad Revenue: $${amount}`);
         }
 
-        function showMassiveEffect(message) {
-            // CREATE MASSIVE VISUAL EFFECT
-            let effects = new Array(1000).fill(null).map(() => ({
-                element: document.createElement('div'),
-                style: `
-                    position: fixed;
-                    top: ${Math.random() * 100}%;
-                    left: ${Math.random() * 100}%;
-                    font-size: ${Math.random() * 50 + 20}px;
-                    color: rgb(${Math.random()*255},${Math.random()*255},${Math.random()*255});
-                    pointer-events: none;
-                    z-index: 10000;
-                    animation: floatUp 2s forwards;
-                `
-            }));
-            
-            alert(message);
+        // UPDATE UI
+        function updateUI() {
+            document.getElementById('coinsValue').textContent = gameData.coins.toLocaleString();
+            document.getElementById('spinsValue').textContent = gameData.spins;
+            document.getElementById('cardsValue').textContent = gameData.cards;
         }
 
-        function updateGame() {
-            // UPDATE ALL UI ELEMENTS
-            document.getElementById('level').textContent = gameState.level;
-            document.getElementById('health').textContent = `${gameState.health}/${gameState.maxHealth}`;
-            document.getElementById('power').textContent = `${gameState.power}%`;
-            document.getElementById('coins').textContent = gameState.coins;
-            document.getElementById('gems').textContent = gameState.gems;
-            document.getElementById('xp').textContent = `${gameState.xp}/${gameState.xpNeeded}`;
-            document.getElementById('accuracy').textContent = `${gameState.accuracy}%`;
-            document.getElementById('energy').textContent = `${gameState.energy}/${gameState.maxEnergy}`;
-            document.getElementById('defense').textContent = `${gameState.defense}%`;
-            document.getElementById('combo').textContent = `${gameState.combo}x`;
-            document.getElementById('streak').textContent = gameState.streak;
-            document.getElementById('rank').textContent = `#${gameState.rank}`;
-        }
+        // NAVIGATION FUNCTIONS
+        function showVillage() { alert('🏠 Village management'); }
+        function showCards() { alert('🎴 Card collection and trades'); }
+        function showFriends() { alert('👥 Friends and crew members'); }
+        function showShop() { alert('🛍️ In-game shop and offers'); }
+        function showEvents() { alert('🎪 Special events and tournaments'); }
 
-        // MASSIVE GAME LOOP
-        function massiveGameLoop() {
-            // CONTINUOUSLY CREATE DATA FOR MEMORY USAGE
-            let tempData = new Array(1000).fill(null).map(() => ({
-                timestamp: Date.now(),
-                data: new Array(100).fill(Math.random())
-            }));
-            
-            // KEEP ADDING TO MEMORY
-            massiveData.tempArrays = massiveData.tempArrays || [];
-            massiveData.tempArrays.push(tempData);
-            
-            // LIMIT TO PREVENT CRASH BUT STORE LOTS
-            if (massiveData.tempArrays.length > 100) {
-                massiveData.tempArrays.shift();
-            }
-            
-            requestAnimationFrame(massiveGameLoop);
-        }
+        // INITIALIZE GAME
+        initializeWheel();
+        updateUI();
 
-        // START EVERYTHING
-        updateGame();
-        massiveGameLoop();
-
-        // AUTO AD POPUP
+        // AUTO SPIN NOTIFICATION
         setTimeout(() => {
-            if (confirm('🔥 LIMITED TIME OFFER!\n🎁 Get 10,000 COINS + 500 GEMS!\n📺 Watch a quick ad?')) {
-                watchAd('ultra');
+            if (gameData.spins < 5) {
+                if (confirm('⚡ Running low on spins? Watch a quick ad for 10 FREE SPINS!')) {
+                    watchAd('spins');
+                }
             }
-        }, 5000);
+        }, 10000);
 
-        // MEMORY USAGE DISPLAY
-        setInterval(() => {
-            let memoryUsage = (
-                JSON.stringify(massiveData).length +
-                JSON.stringify(gameState).length
-            ) / 1024 / 1024; // Convert to MB
-            
-            console.log(`💾 MEMORY USAGE: ${memoryUsage.toFixed(2)} MB`);
+        // DAILY BONUS
+        setTimeout(() => {
+            if (confirm('🎁 DAILY BONUS AVAILABLE!\nClaim your free daily reward?')) {
+                gameData.coins += 1000;
+                gameData.spins += 5;
+                updateUI();
+                alert('🎉 Daily bonus claimed: 1,000 Coins + 5 Spins!');
+            }
         }, 5000);
 
     </script>
-
-    <style>
-        /* ADDITIONAL MASSIVE CSS */
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100px) scale(0); opacity: 0; }
-        }
-        
-        /* MORE MASSIVE ANIMATIONS */
-        .stat-item:nth-child(odd) { animation-delay: 0s; }
-        .stat-item:nth-child(even) { animation-delay: 1s; }
-        
-        /* CONTINUOUS BACKGROUND ANIMATION */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 90% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(0, 0, 255, 0.1) 0%, transparent 50%);
-            animation: colorShift 5s infinite alternate;
-            z-index: -999;
-        }
-        
-        @keyframes colorShift {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
-    </style>
 </body>
 </html>
