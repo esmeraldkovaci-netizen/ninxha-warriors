@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🥷 NINXHA W211 - Ultimate Warrior</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
+            color: white;
+            perspective: 1000px;
+        }
+        
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+        }
+
+        /* 3D BACKGROUND ANIMATED */
+        #background3d {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .mountain {
+            position: absolute;
+            bottom: 0;
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #2c3e50, #34495e);
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            transform: translateZ(-500px);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .mountain:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .mountain:nth-child(2) { left: 40%; animation-delay: 2s; }
+        .mountain:nth-child(3) { left: 70%; animation-delay: 4s; }
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            animation: clouds 20s linear infinite;
+        }
+
+        .cloud:nth-child(4) { top: 20%; left: -100px; width: 120px; height: 40px; animation-duration: 25s; }
+        .cloud:nth-child(5) { top: 40%; left: -150px; width: 180px; height: 50px; animation-duration: 30s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateZ(-500px) translateY(0px); }
+            50% { transform: translateZ(-500px) translateY(-10px); }
+        }
+
+        @keyframes clouds {
+            0% { transform: translateX(-100px); }
+            100% { transform: translateX(120vw); }
+        }
+
+        /* PREMIUM HEADER */
+        #premiumHeader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(90deg, #8A2BE2, #4B0082, #9400D3);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 5px 20px rgba(138, 43, 226, 0.5); }
+            to { box-shadow: 0 5px 30px rgba(138, 43, 226, 0.8); }
+        }
+
+        #premiumHeader h1 {
+            font-size: 28px;
+            background: linear-gradient(45deg, #FFD700, #FF69B4, #00FF7F);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin: 0;
+        }
+
+        /* PREMIUM SHOP */
+        #premiumShop {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #8A2BE2;
+            text-align: center;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 0 50px rgba(138, 43, 226, 0.7);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .shop-item {
+            background: linear-gradient(45deg, rgba(138, 43, 226, 0.3), rgba(255, 105, 180, 0.3));
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 15px;
+            border: 2px solid #8A2BE2;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shop-item:hover {
+            transform: scale(1.05);
+            border-color: #FFD700;
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        .shop-item.hot::before {
+            content: "🔥 HOT DEAL";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #FF4500;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            transform: rotate(15deg);
+        }
+
+        .price {
+            font-size: 24px;
+            color: #FFD700;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .buy-btn {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            border: none;
+            color: black;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .buy-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        /* MINI GAMES */
+        #miniGames {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(138, 43, 226, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid #8A2BE2;
+            z-index: 100;
+        }
+
+        .mini-game-btn {
+            background: rgba(255, 215, 0, 0.3);
+            border: 1px solid #FFD700;
+            color: white;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mini-game-btn:hover {
+            background: rgba(255, 215, 0, 0.6);
+            transform: scale(1.1);
+        }
+
+        /* SOCIAL LOGIN */
+        #socialLogin {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            background: rgba(138, 43, 226, 0.3);
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid #8A2BE2;
+            z-index: 100;
+        }
+
+        .social-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-btn.google { background: rgba(219, 68, 55, 0.3); border-color: #DB4437; }
+        .social-btn.facebook { background: rgba(59, 89, 152, 0.3); border-color: #3B5998; }
+
+        .social-btn:hover {
+            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* GAME UI */
+        #gameUI {
+            position: absolute;
+            top: 80px;
+            left: 0;
+            width: 100%;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            text-align: center;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(138, 43, 226, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid #8A2BE2;
+            margin: 5px;
+        }
+
+        #gameCanvas {
+            border: 3px solid #8A2BE2;
+            border-radius: 15px;
+            background: #0f3460;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+            margin-top: 60px;
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #FFD700;
+        }
+
+        .control-btn {
+            background: rgba(138, 43, 226, 0.6);
+            border: 2px solid #8A2BE2;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .premium-badge {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: black;
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            margin-left: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D BACKGROUND -->
+    <div id="background3d">
+        <div class="mountain"></div>
+        <div class="mountain"></div>
+        <div class="mountain"></div>
+        <div class="cloud"></div>
+        <div class="cloud"></div>
+    </div>
+
+    <!-- PREMIUM HEADER -->
+    <div id="premiumHeader">
+        <h1>🥷 NINXHA W211 - ULTIMATE WARRIOR 🥷</h1>
+    </div>
+
+    <!-- SOCIAL LOGIN -->
+    <div id="socialLogin">
+        <button class="social-btn google" onclick="googleLogin()">📧 Google</button>
+        <button class="social-btn facebook" onclick="facebookLogin()">👥 Facebook</button>
+    </div>
+
+    <!-- MINI GAMES -->
+    <div id="miniGames">
+        <h4>🎮 Mini Lojëra</h4>
+        <button class="mini-game-btn" onclick="startPuzzleGame()">🧩 Puzzle (+5 Jeta)</button>
+        <button class="mini-game-btn" onclick="startCoinGame()">🪙 Coin Run (+100 Gold)</button>
+        <button class="mini-game-btn" onclick="startMemoryGame()">🎴 Memory (+3 Power)</button>
+    </div>
+
+    <!-- PREMIUM SHOP -->
+    <div id="premiumShop">
+        <h2>🛍️ SHOP PREMIUM</h2>
+        <div class="shop-item hot" onclick="selectProduct('ultimate_pack')">
+            <h3>🚀 PAKETA ULTIMATE</h3>
+            <p>+ Jeta e pafund 🤯</p>
+            <p>+ Armët e gjitha 🗡️</p>
+            <p>+ Karaktere ekskluzive 💎</p>
+            <div class="price">€49.99</div>
+            <button class="buy-btn" onclick="buyProduct('ultimate_pack')">BLI TANI! 🔥</button>
+        </div>
+
+        <div class="shop-item" onclick="selectProduct('gold_pack')">
+            <h3>💰 10,000 GOLD</h3>
+            <p>Bli çdo gjë në lojë!</p>
+            <div class="price">€19.99</div>
+            <button class="buy-btn" onclick="buyProduct('gold_pack')">BLI TANI! ⚡</button>
+        </div>
+
+        <div class="shop-item" onclick="selectProduct('life_pack')">
+            <h3>❤️ 25 JETA</h3>
+            <p>Asnjëherë mos mbaro!</p>
+            <div class="price">€9.99</div>
+            <button class="buy-btn" onclick="buyProduct('life_pack')">BLI TANI! 💖</button>
+        </div>
+
+        <button class="control-btn" onclick="closeShop()">Mbylle</button>
+    </div>
+
+    <div id="gameContainer">
+        <div id="gameUI">
+            <div class="stats">
+                <div class="stat-item">🏆 Level: <span id="level">1</span></div>
+                <div class="stat-item">❤️ Health: <span id="health">100</span></div>
+                <div class="stat-item">⚔️ Kills: <span id="kills">0</span></div>
+                <div class="stat-item">💰 Gold: <span id="gold">0</span></div>
+                <div class="stat-item">💎 Premium: <span id="premium">JO</span></div>
+            </div>
+        </div>
+        
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        
+        <div id="controls">
+            <button class="control-btn" onclick="useShuriken()">🗡️ Shuriken</button>
+            <button class="control-btn" onclick="useKatana()">⚔️ Katana</button>
+            <button class="control-btn" onclick="useSpecial()">💥 Special</button>
+            <button class="control-btn" onclick="openShop()">🛍️ Shop <span class="premium-badge">NEW</span></button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== PREMIUM FEATURES ====================
+        let playerData = {
+            gold: 0,
+            premium: false,
+            lives: 3,
+            powerUps: 0,
+            loginCount: 0
+        };
+
+        // SOCIAL LOGIN
+        function googleLogin() {
+            playerData.loginCount++;
+            playerData.gold += 50;
+            alert('✅ U logove me Google! +50 Gold bonus!');
+            updateUI();
+        }
+
+        function facebookLogin() {
+            playerData.loginCount++;
+            playerData.gold += 30;
+            alert('✅ U logove me Facebook! +30 Gold bonus!');
+            updateUI();
+        }
+
+        // MINI GAMES
+        function startPuzzleGame() {
+            if (confirm('🧩 Fito 5 jeta nëse zgjidhësh puzzle-in!')) {
+                playerData.lives += 5;
+                alert('🎉 Fituat 5 jeta të reja!');
+                updateUI();
+            }
+        }
+
+        function startCoinGame() {
+            if (confirm('🪙 Vraponi për 30 sekonda dhe fitoni gold!')) {
+                playerData.gold += 100;
+                alert('💰 Fituat 100 Gold!');
+                updateUI();
+            }
+        }
+
+        function startMemoryGame() {
+            if (confirm('🎴 Testo kujtesën tënde për power-up!')) {
+                playerData.powerUps += 3;
+                alert('⚡ Fituat 3 Power-up të reja!');
+                updateUI();
+            }
+        }
+
+        // PREMIUM SHOP
+        function openShop() {
+            document.getElementById('premiumShop').style.display = 'block';
+        }
+
+        function closeShop() {
+            document.getElementById('premiumShop').style.display = 'none';
+        }
+
+        function selectProduct(product) {
+            // Highlight selected product
+            document.querySelectorAll('.shop-item').forEach(item => {
+                item.style.borderColor = '#8A2BE2';
+            });
+            event.currentTarget.style.borderColor = '#FFD700';
+        }
+
+        function buyProduct(product) {
+            const products = {
+                'ultimate_pack': { price: 49.99, name: 'Paketa Ultimate' },
+                'gold_pack': { price: 19.99, name: '10,000 Gold' },
+                'life_pack': { price: 9.99, name: '25 Jeta' }
+            };
+
+            const selected = products[product];
+            
+            if (confirm(`💳 A doni të blini "${selected.name}" për €${selected.price}?`)) {
+                // Simulate payment processing
+                alert('✅ Pagesa u pranua! Shijoni produktin tuaj! 🎉');
+                
+                // Apply benefits
+                if (product === 'ultimate_pack') {
+                    playerData.premium = true;
+                    playerData.gold += 10000;
+                    playerData.lives += 25;
+                } else if (product === 'gold_pack') {
+                    playerData.gold += 10000;
+                } else if (product === 'life_pack') {
+                    playerData.lives += 25;
+                }
+                
+                updateUI();
+                closeShop();
+            }
+        }
+
+        function updateUI() {
+            document.getElementById('gold').textContent = playerData.gold;
+            document.getElementById('premium').textContent = playerData.premium ? 'PO ✅' : 'JO ❌';
+            document.getElementById('premium').style.color = playerData.premium ? '#00FF00' : '#FF0000';
+        }
+
+        // ==================== GAME LOGIC ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let ninja = {
+            x: canvas.width / 2,
+            y: canvas.height / 2,
+            width: 32,
+            height: 32,
+            health: 100,
+            maxHealth: 100,
+            level: 1,
+            kills: 0,
+            speed: 4
+        };
+        
+        let enemies = [];
+        let particles = [];
+        let touchX = ninja.x;
+        let touchY = ninja.y;
+
+        // Touch controls
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            touchX = touch.clientX - rect.left;
+            touchY = touch.clientY - rect.top;
+        });
+
+        // Game functions
+        function useShuriken() {
+            // Shuriken attack logic
+            alert('🗡️ Shuriken u hodh!');
+        }
+
+        function useKatana() {
+            // Katana attack logic
+            alert('⚔️ Katana attack!');
+        }
+
+        function useSpecial() {
+            // Special attack logic
+            alert('💥 Special attack activated!');
+        }
+
+        function update() {
+            // Basic movement
+            const dx = touchX - ninja.x;
+            const dy = touchY - ninja.y;
+            const dist = Math.hypot(dx, dy);
+            
+            if (dist > ninja.speed) {
+                ninja.x += (dx / dist) * ninja.speed;
+                ninja.y += (dy / dist) * ninja.speed;
+            }
+        }
+
+        function draw() {
+            // Clear canvas
+            ctx.fillStyle = '#0f3460';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw ninja
+            ctx.fillStyle = '#8A2BE2';
+            ctx.fillRect(ninja.x - 16, ninja.y - 16, 32, 32);
+            
+            // Draw ninja face
+            ctx.fillStyle = 'white';
+            ctx.fillRect(ninja.x - 8, ninja.y - 8, 4, 4);
+            ctx.fillRect(ninja.x + 4, ninja.y - 8, 4, 4);
+        }
+
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Initialize
+        updateUI();
+        gameLoop();
+
+        // Auto-open shop after 10 seconds
+        setTimeout(() => {
+            if (!playerData.premium && playerData.loginCount === 0) {
+                openShop();
+                alert('🎁 OFERTË E RE! 50% Zbritje për 24 orët e para! 🔥');
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
