@@ -1,48 +1,31 @@
 <!doctype html>
 <html lang="sq">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<title>NINXHA W211 — 3D Lite (mobile-friendly)</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>NINXHA W211 — Full MVP</title>
 <style>
-  html,body { height:100%; margin:0; background:#0b1020; color:#fff; font-family:Arial, sans-serif; -webkit-user-select:none; user-select:none; touch-action:none; }
-  #container { width:100%; height:100%; position:relative; overflow:hidden; }
-  #hud {
-    position:absolute; left:12px; top:12px; z-index:20;
-    display:flex; gap:10px; flex-direction:column;
-  }
-  .panel {
-    background:rgba(0,0,0,0.5); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(4px);
-  }
-  #score { font-size:16px; }
-  #healthBar { width:200px; height:12px; background:#222; border-radius:8px; overflow:hidden; margin-top:6px; }
-  #healthFill { height:100%; background:linear-gradient(90deg,#ff4d4d,#ffb86b); width:100%; }
-  /* Controls bottom */
-  #controls {
-    position:absolute; bottom:18px; left:0; right:0; z-index:20; display:flex; justify-content:space-between; padding:0 18px; pointer-events:none;
-  }
-  /* Joystick area */
-  #leftControl { width:40%; max-width:320px; height:180px; pointer-events:auto; }
-  #rightControl { width:40%; max-width:320px; height:180px; pointer-events:auto; display:flex; justify-content:flex-end; gap:12px; align-items:center; }
-  .stick {
-    width:120px; height:120px; border-radius:50%; background:rgba(255,255,255,0.06); position:relative;
-    touch-action:none;
-  }
-  .thumb {
-    width:56px; height:56px; border-radius:50%; background:rgba(255,255,255,0.18); position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); display:flex; align-items:center; justify-content:center;
-  }
-  .btn {
-    width:72px; height:72px; border-radius:12px; background:linear-gradient(180deg,#6f00ff,#3a00a1); display:flex; align-items:center; justify-content:center; font-size:18px; pointer-events:auto; box-shadow:0 6px 18px rgba(0,0,0,0.6);
-  }
-  .small { width:56px; height:56px; border-radius:10px; font-size:14px; }
-  #msg { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); z-index:25; font-size:20px; background:rgba(0,0,0,0.6); padding:12px 18px; border-radius:8px; display:none; }
-  /* responsive */
-  @media(min-width:900px){
-    #leftControl, #rightControl { height:220px; }
-    .stick { width:150px; height:150px; }
-    .thumb { width:70px; height:70px; }
-  }
+  html,body{height:100%;margin:0;background:#061025;color:#fff;font-family:Arial, sans-serif;touch-action:none;-webkit-user-select:none;user-select:none}
+  #container{width:100%;height:100%;position:relative;overflow:hidden}
+  /* HUD / Menus */
+  .panel{background:rgba(0,0,0,0.55);padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06)}
+  #hud{position:absolute;left:12px;top:12px;z-index:30;display:flex;flex-direction:column;gap:8px}
+  #controls{position:absolute;bottom:18px;left:0;right:0;z-index:30;display:flex;justify-content:space-between;padding:0 18px;pointer-events:none}
+  #leftControl{width:40%;max-width:340px;height:180px;pointer-events:auto}
+  .stick{width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.06);position:relative;touch-action:none}
+  .thumb{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.18);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center}
+  #rightControl{width:40%;max-width:340px;height:180px;pointer-events:auto;display:flex;justify-content:flex-end;gap:12px;align-items:center}
+  .btn{width:72px;height:72px;border-radius:12px;background:linear-gradient(180deg,#6f00ff,#3a00a1);display:flex;align-items:center;justify-content:center;font-size:18px;pointer-events:auto;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+  .small{width:56px;height:56px;border-radius:10px;font-size:14px}
+  #msg{position:absolute;left:50%;top:20%;transform:translateX(-50%);z-index:40;display:none;padding:10px 16px;border-radius:8px;background:rgba(0,0,0,0.6)}
+  /* MENU */
+  #menu{position:absolute;z-index:60;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:auto}
+  #menuBox{width:90%;max-width:480px;background:linear-gradient(180deg,rgba(10,10,20,0.95),rgba(5,5,15,0.95));padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.05);text-align:center}
+  #playBtn{padding:12px 18px;border-radius:10px;background:#00b894;border:none;color:#fff;font-size:18px;cursor:pointer}
+  #shop{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+  .shopItem{background:rgba(255,255,255,0.04);padding:10px;border-radius:8px;width:140px}
+  /* responsive tweaks */
+  @media(min-width:900px){.stick{width:150px;height:150px}.thumb{width:70px;height:70px}}
 </style>
 </head>
 <body>
@@ -50,23 +33,36 @@
 
 <!-- HUD -->
 <div id="hud">
-  <div class="panel">
-    <div id="score">Pikë: <span id="scoreVal">0</span></div>
-    <div id="healthBar"><div id="healthFill"></div></div>
-    <div style="margin-top:8px; font-size:13px;">Nivel: <span id="levelVal">1</span> &nbsp; Gems: <span id="gemsVal">0</span></div>
-  </div>
-  <div class="panel" id="savePanel">
-    <div style="font-size:13px;">Ruajtje automatike: <span id="saveStatus">OK</span></div>
+  <div class="panel"><div>Pikë: <span id="scoreVal">0</span></div><div>Gems: <span id="gemsVal">0</span></div></div>
+  <div class="panel"><div id="healthTxt">Shëndet: <span id="healthVal">100</span>/<span id="maxHealthVal">100</span></div></div>
+  <div class="panel" id="savePanel">Ruajtje auto: <span id="saveStatus">OK</span></div>
+</div>
+
+<div id="menu">
+  <div id="menuBox">
+    <h2 style="margin:6px 0">NINXHA W211</h2>
+    <p style="opacity:0.8">3D Lite — MVP me monetizim dhe shop</p>
+    <button id="playBtn">Luaj Tani</button>
+    <div id="shop">
+      <div class="shopItem">
+        <div>Pack 500 Coins</div><div style="margin-top:8px"><button class="buy" data-type="coins" data-amt="500">Blej 0.99€</button></div>
+      </div>
+      <div class="shopItem">
+        <div>Pack 1200 Coins</div><div style="margin-top:8px"><button class="buy" data-type="coins" data-amt="1200">Blej 2.49€</button></div>
+      </div>
+      <div class="shopItem">
+        <div>Premium Skin</div><div style="margin-top:8px"><button class="buy" data-type="skin" data-amt="1">Blej 3.99€</button></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;opacity:0.8;font-size:13px">Shënim: Ky shop është demonstrues — lidh IAP në wrapper për transaksione reale.</div>
   </div>
 </div>
 
+<div id="msg">Message</div>
+
 <!-- Controls -->
 <div id="controls">
-  <div id="leftControl">
-    <div id="stick" class="stick" aria-hidden="true">
-      <div id="thumb" class="thumb">◉</div>
-    </div>
-  </div>
+  <div id="leftControl"><div id="stick" class="stick"><div id="thumb" class="thumb">◉</div></div></div>
   <div id="rightControl">
     <div id="btnAttack" class="btn small">Sulm</div>
     <div id="btnDash" class="btn small">Dash</div>
@@ -74,205 +70,115 @@
   </div>
 </div>
 
-<div id="msg">Ready</div>
-
-<!-- Three.js from CDN (r152 as example). Mund ta ndryshosh në version të fundit kur publikosh. -->
+<!-- Three.js and loaders (GLTF) -->
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/js/loaders/GLTFLoader.js"></script>
+
 <script>
-/*
-  NINXHA W211 — Lite 3D
-  Funksionalitet i plotë baze: lëvizje 3D, armik, kollizion, scoring, pool, storage, simulated ad.
-  Dizajnuar për performancë mobile: low-poly, pooling, kufizime obj.
-*/
-
-/* ---------------------- SETTINGS ---------------------- */
+/* ---------------- SETTINGS ---------------- */
 const SETTINGS = {
-  enemyMax: 12,
-  spawnInterval: 1400,
-  enemySpeed: 0.6,
-  playerSpeed: 6.0,
-  dashMultiplier: 2.6,
-  canvasPixelRatioMax: 1.5,
-  adWatchSeconds: 5
+  enemyMax: 14,
+  spawnInterval: 1600,
+  enemySpeedBase: 0.5,
+  playerSpeed: 6.6,
+  dashMultiplier: 2.8,
+  pixelRatioMax: 1.5,
+  adWatchSeconds: 6
 };
 
-/* ---------------------- STATE ---------------------- */
-let state = {
-  score: 0,
-  gems: 0,
-  level: 1,
-  health: 100,
-  maxHealth: 100,
-  lastSpawn: 0,
-  enemiesActive: 0,
-  running: true
-};
+/* -------------- STATE & STORAGE -------------- */
+let state = { score:0, gems:0, level:1, health:100, maxHealth:100, running:false };
+const STORAGE_KEY = 'ninxha_w211_full_v1';
 
-/* ---------------------- STORAGE ---------------------- */
-const STORAGE_KEY = 'ninxha_w211_save_v1';
-function loadSave(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if(raw){
-      const s = JSON.parse(raw);
-      state.score = s.score||0;
-      state.gems = s.gems||0;
-      state.level = s.level||1;
-      state.health = s.health || state.maxHealth;
-      updateHUD();
-    }
-  }catch(e){ console.warn('load err',e); }
-}
-function saveProgress(){
-  try{
-    const to = { score: state.score, gems: state.gems, level: state.level, health: state.health };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(to));
-    document.getElementById('saveStatus').textContent = 'OK';
-  }catch(e){
-    document.getElementById('saveStatus').textContent = 'ERR';
-  }
-}
+function loadSave(){ try{
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if(raw){ const s = JSON.parse(raw); Object.assign(state, {score:s.score||0, gems:s.gems||0, level:s.level||1, health:s.health||state.maxHealth}); updateHUD(); }
+}catch(e){ console.warn(e); } }
+function saveProgress(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify({score:state.score,gems:state.gems,level:state.level,health:state.health})); document.getElementById('saveStatus').textContent='OK'; }catch(e){ document.getElementById('saveStatus').textContent='ERR'; }}
 
-/* ---------------------- THREE.JS SETUP ---------------------- */
+/* -------------- THREE.JS BASIC -------------- */
 const container = document.getElementById('container');
 const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x0a0a12, 0.0025);
-
-const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:false });
-renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, SETTINGS.canvasPixelRatioMax));
+scene.fog = new THREE.FogExp2(0x061025, 0.0022);
+const renderer = new THREE.WebGLRenderer({ antialias:true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, SETTINGS.pixelRatioMax));
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 container.appendChild(renderer.domElement);
 
 const camera = new THREE.PerspectiveCamera(55, window.innerWidth/window.innerHeight, 0.1, 5000);
-camera.position.set(0, 8, 18);
+camera.position.set(0,7,18);
 
 /* LIGHTS */
-const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
-dirLight.position.set(5, 20, 10);
-dirLight.castShadow = true;
-scene.add(dirLight);
-
-const amb = new THREE.AmbientLight(0x9090b0, 0.6);
-scene.add(amb);
+const dir = new THREE.DirectionalLight(0xffffff,0.9); dir.position.set(5,20,10); dir.castShadow=true; scene.add(dir);
+scene.add(new THREE.AmbientLight(0x9090b0,0.5));
 
 /* GROUND */
-const groundGeo = new THREE.PlaneGeometry(200,200);
-const groundMat = new THREE.MeshStandardMaterial({ color:0x08102a, roughness:0.9, metalness:0.1 });
-const ground = new THREE.Mesh(groundGeo, groundMat);
-ground.rotation.x = -Math.PI/2;
-ground.receiveShadow = true;
-scene.add(ground);
+const gGeo = new THREE.PlaneGeometry(240,240);
+const gMat = new THREE.MeshStandardMaterial({color:0x071229,roughness:0.95});
+const ground = new THREE.Mesh(gGeo,gMat); ground.rotation.x=-Math.PI/2; ground.receiveShadow=true; scene.add(ground);
 
-/* ---------------------- PLAYER (simple low-poly ninja) ---------------------- */
-const player = new THREE.Group();
-player.position.set(0, 1.2, 0);
-player.castShadow = true;
-
-// body
-const bodyMat = new THREE.MeshStandardMaterial({ color:0x101020, roughness:0.6, metalness:0.2 });
-const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.8, 1.2, 4, 8), bodyMat);
-body.castShadow = true;
-player.add(body);
-
-// head (hood)
-const head = new THREE.Mesh(new THREE.SphereGeometry(0.55, 12, 9), new THREE.MeshStandardMaterial({ color:0x151531 }));
-head.position.set(0,1.2,0);
-head.castShadow = true;
-player.add(head);
-
-// eyes (glow)
-const eyeMat = new THREE.MeshBasicMaterial({ color:0x00ffd6 });
-const eyeL = new THREE.Mesh(new THREE.BoxGeometry(0.18,0.06,0.02), eyeMat);
-const eyeR = eyeL.clone();
-eyeL.position.set(-0.18,1.15,0.52); eyeR.position.set(0.18,1.15,0.52);
-player.add(eyeL); player.add(eyeR);
-
+/* -------------- PLAYER (optionally GLTF) -------------- */
+const player = new THREE.Group(); player.position.set(0,1.2,0); player.castShadow=true;
 scene.add(player);
+// fallback low-poly body
+const bodyMat = new THREE.MeshStandardMaterial({color:0x101020,roughness:0.6});
+const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.8,1.2,4,8), bodyMat); body.castShadow=true; player.add(body);
+const head = new THREE.Mesh(new THREE.SphereGeometry(0.55,12,9), new THREE.MeshStandardMaterial({color:0x151531})); head.position.set(0,1.2,0); player.add(head);
 
-/* weapon (visual) */
-const blade = new THREE.Mesh(new THREE.BoxGeometry(0.08,0.9,0.02), new THREE.MeshStandardMaterial({ color:0xffd166 }));
-blade.position.set(0.9,0.2,0);
-blade.rotation.z = -0.5;
-player.add(blade);
+/* weapon visual */
+const blade = new THREE.Mesh(new THREE.BoxGeometry(0.08,0.9,0.02), new THREE.MeshStandardMaterial({color:0xffd166})); blade.position.set(0.9,0.2,0); blade.rotation.z=-0.5; player.add(blade);
 
-/* PLAYER PHYSICS */
-let playerVel = new THREE.Vector3(0,0,0);
-let input = { x:0, z:0, attack:false, dash:false };
-
-/* ---------------------- ENEMY POOL (object pooling) ---------------------- */
-const enemyPool = [];
-const activeEnemies = [];
-
-const enemyGeom = new THREE.CylinderGeometry(0.6,0.6,1.4,10);
-const enemyMat = new THREE.MeshStandardMaterial({ color:0x7b1fa2, roughness:0.7 });
-
-function createEnemy(){
-  const g = new THREE.Mesh(enemyGeom, enemyMat);
-  g.castShadow = true;
-  g.position.set(20, 0.7, (Math.random()-0.5)*60);
-  g.health = 20 + Math.floor(Math.random()*30);
-  g.speed = 0.4 + Math.random()*0.6;
-  g._alive = false;
-  scene.add(g);
-  enemyPool.push(g);
+/* support for GLTF model if provided: loader will replace player group children */
+const gltfLoader = new THREE.GLTFLoader();
+function tryLoadModel(){
+  const path = 'models/ninja.glb'; // vendos modelin ne folderin "models"
+  gltfLoader.load(path, (g)=>{
+    try{
+      // remove fallback children
+      while(player.children.length) player.remove(player.children[0]);
+      const model = g.scene || g.scenes[0];
+      model.traverse(o=>{ if(o.isMesh){ o.castShadow=true; o.receiveShadow=true; o.material.flatShading = false; }});
+      model.scale.setScalar(1.8);
+      model.position.set(0,0,0);
+      player.add(model);
+      console.log('Model loaded:', path);
+    }catch(e){ console.warn('model load err', e); }
+  }, undefined, ()=>{ console.log('Model not found at', path, '(ok, using fallback)'); });
 }
-for(let i=0;i<SETTINGS.enemyMax;i++) createEnemy();
+tryLoadModel();
 
+/* -------------- ENEMY POOL -------------- */
+const enemyPool = [], activeEnemies = [];
+const eGeo = new THREE.CylinderGeometry(0.6,0.6,1.4,10);
+const eMat = new THREE.MeshStandardMaterial({color:0x8e44ad,roughness:0.78});
+for(let i=0;i<SETTINGS.enemyMax;i++){
+  const m = new THREE.Mesh(eGeo,eMat); m.castShadow=true; m.position.set(30,0.7,(Math.random()-0.5)*60); m._alive=false; scene.add(m); enemyPool.push(m);
+}
 function spawnEnemy(){
   if(enemyPool.length===0) return;
   const e = enemyPool.pop();
-  e.position.set( (Math.random()<0.5?-1:1)*(12 + Math.random()*8), 0.7, (Math.random()-0.5)*24 );
-  e.health = 18 + Math.floor(Math.random()*40);
+  e.position.set((Math.random()<0.5?-1:1)*(12 + Math.random()*8),0.7,(Math.random()-0.5)*24);
+  e.health = 20 + Math.floor(Math.random()*50);
+  e.speed = SETTINGS.enemySpeedBase + Math.random()*0.7;
   e._alive = true;
   activeEnemies.push(e);
-  state.enemiesActive = activeEnemies.length;
 }
 
-/* ---------------------- SIMPLE BULLET POOL ---------------------- */
-const bulletPool = [];
-const activeBullets = [];
-const bulletGeom = new THREE.SphereGeometry(0.12,8,6);
-const bulletMat = new THREE.MeshStandardMaterial({ color:0xfff2c2, emissive:0xffd166, emissiveIntensity:0.6 });
-
-for(let i=0;i<24;i++){
-  const b = new THREE.Mesh(bulletGeom, bulletMat);
-  b.visible = false; scene.add(b);
-  bulletPool.push(b);
-}
-
+/* -------------- BULLETS -------------- */
+const bulletPool = [], activeBullets = [];
+const bGeo = new THREE.SphereGeometry(0.12,8,6);
+const bMat = new THREE.MeshStandardMaterial({color:0xfff2c2,emissive:0xffd166,emissiveIntensity:0.6});
+for(let i=0;i<28;i++){ const b = new THREE.Mesh(bGeo,bMat); b.visible=false; scene.add(b); bulletPool.push(b); }
 function fireBullet(origin, dir){
   if(bulletPool.length===0) return;
-  const b = bulletPool.pop();
-  b.position.copy(origin);
-  b.userData = { dir: dir.clone(), life: 120 };
-  b.visible = true;
-  activeBullets.push(b);
+  const b = bulletPool.pop(); b.position.copy(origin); b.userData={dir:dir.clone(),life:120}; b.visible=true; activeBullets.push(b);
 }
 
-/* ---------------------- COLLISION helpers ---------------------- */
-function dist2(a,b){ return a.distanceToSquared(b); }
-
-/* ---------------------- CAMERA follow ---------------------- */
-const camOffset = new THREE.Vector3(0,6,14);
-
-/* ---------------------- HUD helpers ---------------------- */
-function updateHUD(){
-  document.getElementById('scoreVal').textContent = Math.floor(state.score);
-  document.getElementById('gemsVal').textContent = state.gems;
-  document.getElementById('levelVal').textContent = state.level;
-  const percent = Math.max(0, Math.min(1, state.health / state.maxHealth));
-  document.getElementById('healthFill').style.width = (percent*100) + '%';
-}
-
-/* ---------------------- INPUT (virtual joystick) ---------------------- */
-const stick = document.getElementById('stick');
-const thumb = document.getElementById('thumb');
-let stickActive = false;
-let stickRect = null;
-let stickCenter = { x:0, y:0 };
-
-function updateStickPosition(clientX, clientY){
+/* -------------- INPUT (virtual joystick) -------------- */
+const stick = document.getElementById('stick'), thumb = document.getElementById('thumb');
+let stickActive=false, stickRect=null, input={x:0,z:0,attack:false,dash:false};
+function updateStickPosition(clientX,clientY){
   if(!stickRect) stickRect = stick.getBoundingClientRect();
   const x = clientX - (stickRect.left + stickRect.width/2);
   const y = clientY - (stickRect.top + stickRect.height/2);
@@ -280,234 +186,152 @@ function updateStickPosition(clientX, clientY){
   const nx = Math.max(-max, Math.min(max, x));
   const ny = Math.max(-max, Math.min(max, y));
   thumb.style.transform = `translate(${nx}px, ${ny}px)`;
-  input.x = nx / max;
-  input.z = ny / max * -1; // invert so up moves forward (negative Z)
+  input.x = nx/max; input.z = ny/max * -1;
 }
-
-function resetThumb(){
-  thumb.style.transform = `translate(-50%,-50%)`;
-  input.x = 0; input.z = 0;
-}
-
-stick.addEventListener('touchstart', (e)=>{
-  e.preventDefault();
-  stickActive = true;
-  updateStickPosition(e.touches[0].clientX, e.touches[0].clientY);
-});
-stick.addEventListener('touchmove', (e)=>{
-  e.preventDefault();
-  updateStickPosition(e.touches[0].clientX, e.touches[0].clientY);
-});
-stick.addEventListener('touchend', (e)=>{
-  e.preventDefault();
-  stickActive = false;
-  resetThumb();
-});
-/* also support mouse for desktop testing */
-stick.addEventListener('mousedown', (e)=>{
-  e.preventDefault(); stickActive = true; updateStickPosition(e.clientX, e.clientY);
-});
-window.addEventListener('mousemove', (e)=>{ if(stickActive) updateStickPosition(e.clientX, e.clientY); });
+function resetThumb(){ thumb.style.transform = `translate(-50%,-50%)`; input.x=0; input.z=0; }
+stick.addEventListener('touchstart', (e)=>{ e.preventDefault(); stickActive=true; updateStickPosition(e.touches[0].clientX,e.touches[0].clientY); });
+stick.addEventListener('touchmove', (e)=>{ e.preventDefault(); if(stickActive) updateStickPosition(e.touches[0].clientX,e.touches[0].clientY); });
+stick.addEventListener('touchend', (e)=>{ e.preventDefault(); stickActive=false; resetThumb(); });
+stick.addEventListener('mousedown', (e)=>{ e.preventDefault(); stickActive=true; updateStickPosition(e.clientX,e.clientY); });
+window.addEventListener('mousemove', (e)=>{ if(stickActive) updateStickPosition(e.clientX,e.clientY); });
 window.addEventListener('mouseup', ()=>{ if(stickActive){ stickActive=false; resetThumb(); } });
-
-/* Buttons */
-document.getElementById('btnAttack').addEventListener('touchstart', (e)=>{ e.preventDefault(); input.attack = true; });
-document.getElementById('btnAttack').addEventListener('touchend', (e)=>{ e.preventDefault(); input.attack = false; });
-document.getElementById('btnDash').addEventListener('touchstart', (e)=>{ e.preventDefault(); input.dash = true; setTimeout(()=>{ input.dash=false; }, 200); });
+document.getElementById('btnAttack').addEventListener('touchstart', (e)=>{ e.preventDefault(); input.attack=true; });
+document.getElementById('btnAttack').addEventListener('touchend', (e)=>{ e.preventDefault(); input.attack=false; });
+document.getElementById('btnDash').addEventListener('touchstart', (e)=>{ e.preventDefault(); input.dash=true; setTimeout(()=>input.dash=false,220); });
 document.getElementById('btnAd').addEventListener('touchstart', (e)=>{ e.preventDefault(); simulateAd(); });
 
-/* desktop clicks */
-document.getElementById('btnAttack').addEventListener('mousedown', ()=>{ input.attack=true; });
-document.getElementById('btnAttack').addEventListener('mouseup', ()=>{ input.attack=false; });
+/* desktop fallback */
+document.getElementById('btnAttack').addEventListener('mousedown', ()=>input.attack=true); document.getElementById('btnAttack').addEventListener('mouseup', ()=>input.attack=false);
 document.getElementById('btnDash').addEventListener('click', ()=>{ input.dash=true; setTimeout(()=>input.dash=false,220); });
 document.getElementById('btnAd').addEventListener('click', ()=>simulateAd());
 
-/* ---------------------- GAME LOGIC ---------------------- */
-let lastTime = performance.now();
+/* -------------- HUD -------------- */
+function updateHUD(){ document.getElementById('scoreVal').textContent=Math.floor(state.score); document.getElementById('gemsVal').textContent=state.gems; document.getElementById('healthVal').textContent=Math.floor(state.health); document.getElementById('maxHealthVal').textContent=state.maxHealth; }
 
+/* -------------- GAME LOOP -------------- */
+let lastTime = performance.now();
 function update(dt){
   // movement
-  const speed = SETTINGS.playerSpeed * (input.dash ? SETTINGS.dashMultiplier : 1);
-  const forward = new THREE.Vector3(input.x, 0, input.z).normalize().multiplyScalar(speed * dt * 0.06);
-  player.position.x += forward.x;
-  player.position.z += forward.z;
-  // clamp area
-  player.position.x = Math.max(-28, Math.min(28, player.position.x));
-  player.position.z = Math.max(-28, Math.min(28, player.position.z));
+  const speed = SETTINGS.playerSpeed * (input.dash?SETTINGS.dashMultiplier:1);
+  const forward = new THREE.Vector3(input.x,0,input.z).normalize().multiplyScalar(speed * dt * 0.06);
+  player.position.x += forward.x; player.position.z += forward.z;
+  player.position.x = Math.max(-28, Math.min(28, player.position.x)); player.position.z = Math.max(-28, Math.min(28, player.position.z));
+  if(Math.abs(input.x)+Math.abs(input.z) > 0.02){ const ang = Math.atan2(input.x,input.z); player.rotation.y = ang; }
+  // camera
+  const camOffset = new THREE.Vector3(0,6,14);
+  const desired = player.position.clone().add(camOffset);
+  camera.position.lerp(desired, 0.08); camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
 
-  // simple rotation to move direction
-  if(Math.abs(input.x) + Math.abs(input.z) > 0.02){
-    const ang = Math.atan2(input.x, input.z);
-    player.rotation.y = ang;
-  }
+  // spawn enemy (timer-based)
+  if(activeEnemies.length < SETTINGS.enemyMax && (performance.now() - (window._lastSpawn||0) > SETTINGS.spawnInterval)){ spawnEnemy(); window._lastSpawn = performance.now(); }
 
-  // camera follow (lerp)
-  const desiredCam = player.position.clone().add(camOffset);
-  camera.position.lerp(desiredCam, 0.08);
-  camera.lookAt(player.position.x, player.position.y+1.2, player.position.z);
-
-  // spawn enemies
-  if(performance.now() - state.lastSpawn > SETTINGS.spawnInterval && activeEnemies.length < SETTINGS.enemyMax){
-    spawnEnemy();
-    state.lastSpawn = performance.now();
-  }
-
-  // update enemies
+  // enemies act
   for(let i=activeEnemies.length-1;i>=0;i--){
     const e = activeEnemies[i];
-    if(!e._alive) continue;
-    // move towards player
-    const dir = player.position.clone().sub(e.position);
-    dir.y = 0;
-    dir.normalize();
+    const dir = player.position.clone().sub(e.position); dir.y=0; dir.normalize();
     e.position.addScaledVector(dir, e.speed * dt * 0.06);
-
-    // if close -> damage player
-    if(dist2(e.position, player.position) < 1.1){
-      // damage and knockback
-      if(performance.now() % 400 > 200){ /* reduce rate */ }
-      state.health -= 0.3 * dt;
-      if(state.health <= 0){
-        state.running = false;
-        showMessage('Humbe! Rifresko faqen për të provuar përsëri.');
-      }
+    // damage if close
+    if(e.position.distanceToSquared(player.position) < 1.2){
+      state.health -= 0.4 * dt * 0.06;
+      if(state.health <= 0){ state.running=false; showMessage('Humbe! Shko në menu për të riluar.'); document.getElementById('menu').style.display='flex'; }
     }
-
-    // check bullets hitting enemy
-    for(let bI=activeBullets.length-1;bI>=0;bI--){
-      const b = activeBullets[bI];
+    // bullets hit
+    for(let bi=activeBullets.length-1;bi>=0;bi--){
+      const b = activeBullets[bi];
       if(!b.visible) continue;
-      if(dist2(b.position, e.position) < 0.9){
-        e.health -= 15;
-        // bullet expire
-        b.userData.life = 0;
-        state.score += 6;
-        updateHUD();
+      if(b.position.distanceToSquared(e.position) < 0.9){
+        e.health -= 18; b.userData.life = 0; state.score += 5;
       }
     }
-
     if(e.health <= 0){
-      // kill -> reward
       state.score += 20 + Math.floor(Math.random()*20);
-      if(Math.random() < 0.12){ state.gems += 1; }
-      // remove enemy
-      e._alive = false;
-      // return to pool
-      activeEnemies.splice(i,1);
-      enemyPool.push(e);
-      state.enemiesActive = activeEnemies.length;
-      updateHUD();
+      if(Math.random()<0.12) state.gems++;
+      // remove
+      e._alive=false; activeEnemies.splice(i,1); enemyPool.push(e);
     }
   }
 
-  // bullets update
+  // bullets
   for(let i=activeBullets.length-1;i>=0;i--){
     const b = activeBullets[i];
-    if(!b.visible) { activeBullets.splice(i,1); continue; }
+    if(!b.visible){ activeBullets.splice(i,1); continue; }
     b.position.addScaledVector(b.userData.dir, dt*0.18);
     b.userData.life -= dt;
-    if(b.userData.life <= 0 || Math.abs(b.position.x)>120 || Math.abs(b.position.z)>120){
-      b.visible = false;
-      bulletPool.push(b);
-      activeBullets.splice(i,1);
-    }
+    if(b.userData.life <= 0 || Math.abs(b.position.x)>120 || Math.abs(b.position.z)>120){ b.visible=false; bulletPool.push(b); activeBullets.splice(i,1); }
   }
 
-  // if attack => fire a bullet (rate limit)
-  if(input.attack && performance.now() - (player.userData?.lastShot||0) > 220){
+  // firing rate
+  if(input.attack && performance.now() - (player.userData?.lastShot||0) > 200){
     const dir = new THREE.Vector3(0,0,1).applyQuaternion(player.quaternion).normalize();
     const origin = player.position.clone().add(new THREE.Vector3(0,1.0,0).add(dir.clone().multiplyScalar(1.2)));
-    fireBullet(origin, dir);
-    player.userData = player.userData || {};
-    player.userData.lastShot = performance.now();
+    fireBullet(origin, dir); player.userData = player.userData || {}; player.userData.lastShot = performance.now();
   }
 
-  // CPU-friendly: cap score growth for level up
-  if(state.score >= state.level * 500){
-    state.level++;
-    state.maxHealth += 10;
-    state.health = state.maxHealth;
-    showMessage('Nivel i ri! ' + state.level);
-    updateHUD();
+  // level up
+  if(state.score >= state.level * 700){
+    state.level++; state.maxHealth += 10; state.health = state.maxHealth; showMessage('Nivel i ri! ' + state.level);
   }
-
-  // passive regen small
+  // passive regen
   state.health = Math.min(state.maxHealth, state.health + 0.02*dt);
-
   updateHUD();
 }
-
-/* ---------------------- RENDER LOOP ---------------------- */
 function animate(){
-  const now = performance.now();
-  const dt = Math.min(40, now - lastTime); // clamp dt
+  const now = performance.now(); const dt = Math.min(40, now-lastTime);
   if(state.running) update(dt);
-  renderer.render(scene, camera);
-  lastTime = now;
-  requestAnimationFrame(animate);
+  renderer.render(scene,camera); lastTime = now; requestAnimationFrame(animate);
 }
 animate();
 
-/* ---------------------- UTIL: message ---------------------- */
-const msgEl = document.getElementById('msg');
-let msgTimer = null;
-function showMessage(text, dur=1600){
-  msgEl.style.display = 'block';
-  msgEl.textContent = text;
-  if(msgTimer) clearTimeout(msgTimer);
-  msgTimer = setTimeout(()=>{ msgEl.style.display = 'none'; }, dur);
-}
+/* -------------- UTIL MESSAGES -------------- */
+const msgEl = document.getElementById('msg'); let msgTimer=null;
+function showMessage(txt, dur=1600){ msgEl.style.display='block'; msgEl.textContent=txt; if(msgTimer) clearTimeout(msgTimer); msgTimer=setTimeout(()=>{ msgEl.style.display='none'; }, dur); }
 
-/* ---------------------- Simulated Ad (timer-based, honest) ---------------------- */
-let adInProgress = false;
+/* -------------- Simulated Ad with reward (hook for real AdMob) -------------- */
+let adInProgress=false;
 function simulateAd(){
   if(adInProgress) return;
-  adInProgress = true;
-  showMessage('Shiko reklamën për ' + SETTINGS.adWatchSeconds + 's...');
-  // show a simple on-screen countdown
+  adInProgress=true; showMessage('Shiko reklamë për ' + SETTINGS.adWatchSeconds + 's...');
   const start = performance.now();
   const tick = ()=>{
     const elapsed = Math.floor((performance.now()-start)/1000);
     const left = SETTINGS.adWatchSeconds - elapsed;
     if(left <= 0){
-      adInProgress = false;
-      // reward
-      state.gems += 3;
-      state.score += 120;
-      saveProgress();
-      updateHUD();
-      showMessage('Shpërblim marrë: +3 Gems +120 Pikë',2200);
-      return;
-    }else{
-      msgEl.textContent = 'Shiko reklamën për ' + left + 's...';
-      setTimeout(tick, 500);
-    }
-  };
-  tick();
+      adInProgress=false; state.gems += 5; state.score += 140; saveProgress(); updateHUD(); showMessage('Shpërblim: +5 Gems +140 Pikë',2200); return;
+    } else { msgEl.textContent = 'Shiko reklamë për ' + left + 's...'; setTimeout(tick, 500); }
+  }; tick();
 }
+/* Hook example for real rewarded ad (replace simulateAd with platform SDK calls):
+  function showRewardedAd_real(){ AdSDK.showRewarded(result=>{ if(result.rewarded){ state.gems+=5; saveProgress(); } }) }
+*/
 
-/* ---------------------- EVENT: resize ---------------------- */
-window.addEventListener('resize', ()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
+/* -------------- UI: Menu / Shop interactions -------------- */
+document.getElementById('playBtn').addEventListener('click', ()=>{
+  document.getElementById('menu').style.display='none'; state.running=true; loadSave(); showMessage('Lojë nisur!'); });
+document.querySelectorAll('.buy').forEach(btn=>{
+  btn.addEventListener('click',(e)=>{
+    const type = btn.dataset.type, amt = parseInt(btn.dataset.amt,10);
+    showMessage('Transaksion demo: ' + btn.textContent, 1400);
+    // Demo: instantly grant coins (in production link to IAP)
+    if(type==='coins'){ state.score += amt; saveProgress(); updateHUD(); showMessage('Marrë: ' + amt + ' Coins',1200); }
+    if(type==='skin'){ showMessage('Skin i aplikuar (demo).',1200); }
+  });
 });
 
-/* ---------------------- Autosave ---------------------- */
-setInterval(saveProgress, 6000);
+/* -------------- Leaderboard (local) + server placeholder -------------- */
+function saveScoreToLocalLeaderboard(){
+  try{
+    const list = JSON.parse(localStorage.getItem('ninxha_lb')||'[]');
+    list.push({score:Math.floor(state.score), date:Date.now()});
+    list.sort((a,b)=>b.score-a.score);
+    localStorage.setItem('ninxha_lb', JSON.stringify(list.slice(0,50)));
+  }catch(e){}
+}
+window.addEventListener('beforeunload', ()=>{ saveProgress(); saveScoreToLocalLeaderboard(); });
 
-/* ---------------------- INITIALIZE ---------------------- */
-loadSave();
-updateHUD();
-showMessage('NINXHA W211 — 3D Lite', 1200);
-
-/* ---------------------- Performance note: spawn loop by timer ---------------------- */
-setInterval(()=>{ if(state.running) spawnEnemy(); }, SETTINGS.spawnInterval);
-
-/* ---------------------- debug helper (desktop) ---------------------- */
-window._state = state;
-window._scene = scene;
-
+/* -------------- resize & init -------------- */
+window.addEventListener('resize', ()=>{ camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); });
+loadSave(); updateHUD(); showMessage('NINXHA W211 — Ready',1200);
+setInterval(saveProgress, 7000);
 </script>
 </body>
 </html>
