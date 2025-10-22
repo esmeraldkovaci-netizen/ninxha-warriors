@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ninxha Warriors - Survival Game</title>
+    <title>🥷 Ninxha Warriors - Real Game</title>
     <style>
         * {
             margin: 0;
@@ -12,404 +12,304 @@
         }
         
         body {
-            background: linear-gradient(135deg, #0c0c0c, #1a1a2e);
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
             font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            touch-action: none;
             color: white;
-            overflow-x: hidden;
         }
         
-        /* HEADER LIKE YOUR GAME */
-        #gameHeader {
-            background: linear-gradient(90deg, #8A2BE2, #4B0082);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 2px solid gold;
-        }
-        
-        #playerInfo {
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
             display: flex;
-            justify-content: space-around;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
-            margin-top: 10px;
         }
         
-        .playerLevel {
-            background: rgba(255, 215, 0, 0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            border: 1px solid gold;
-        }
-        
-        /* MAIN GAME LAYOUT */
-        #gameLayout {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 10px;
-            padding: 10px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        /* GAME CONTENT */
-        #gameContent {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 20px;
-            min-height: 80vh;
-        }
-        
-        .missionCard {
-            background: rgba(138, 43, 226, 0.3);
-            border: 2px solid #8A2BE2;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 10px 0;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .missionCard:hover {
-            transform: scale(1.02);
-            border-color: gold;
-        }
-        
-        .missionCard h3 {
-            color: gold;
-            margin-bottom: 10px;
-        }
-        
-        .startButton {
-            background: linear-gradient(45deg, #FFD700, #FF8C00);
-            border: none;
-            color: black;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin: 5px;
-            transition: all 0.3s;
-        }
-        
-        .startButton:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 15px gold;
-        }
-        
-        /* SIDEBAR LIKE YOUR GAME */
-        #gameSidebar {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 15px;
-        }
-        
-        .sidebarSection {
-            background: rgba(138, 43, 226, 0.2);
-            border: 1px solid #8A2BE2;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .adContainer {
-            background: rgba(255, 255, 255, 0.1);
-            border: 2px dashed gold;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-        
-        .adContainer:hover {
-            background: rgba(255, 215, 0, 0.1);
-        }
-        
-        .rewardText {
-            color: gold;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        
-        /* BOTTOM NAVIGATION */
-        #bottomNav {
-            position: fixed;
-            bottom: 0;
+        #gameUI {
+            position: absolute;
+            top: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 100;
+            text-align: center;
+        }
+        
+        .stats {
             display: flex;
             justify-content: space-around;
-            padding: 10px;
-            border-top: 1px solid #8A2BE2;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
         }
         
-        .navButton {
+        .stat-item {
             background: rgba(138, 43, 226, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
             border: 1px solid #8A2BE2;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
+            margin: 5px;
         }
         
-        .navButton:hover {
+        #gameCanvas {
+            border: 3px solid #8A2BE2;
+            border-radius: 15px;
+            background: #0f3460;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.5);
+        }
+        
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            text-align: center;
+            background: rgba(255, 215, 0, 0.2);
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #FFD700;
+        }
+        
+        .control-btn {
             background: rgba(138, 43, 226, 0.6);
-            transform: scale(1.05);
+            border: 2px solid #8A2BE2;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
         
-        /* ACHIEVEMENTS */
-        .achievement {
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid gold;
-            border-radius: 8px;
-            padding: 10px;
-            margin: 5px 0;
-            display: flex;
-            align-items: center;
-        }
-        
-        .achievementIcon {
-            font-size: 24px;
-            margin-right: 10px;
+        .ad-btn {
+            background: linear-gradient(45deg, #FFD700, #FF8C00);
+            color: black;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <!-- HEADER LIKE YOUR GAME -->
-    <div id="gameHeader">
-        <h1>🥷 NINXHA WARRIORS</h1>
-        <div id="playerInfo">
-            <div class="playerLevel">Level: <span id="playerLevel">17</span></div>
-            <div>Energy: <span id="playerEnergy">65/60</span></div>
-            <div>Coins: <span id="playerCoins">34</span></div>
-            <div>Season: <span id="playerSeason">37</span></div>
-        </div>
-    </div>
-
-    <div id="gameLayout">
-        <!-- MAIN GAME CONTENT -->
-        <div id="gameContent">
-            <h2>🏆 Missions & Challenges</h2>
-            
-            <div class="missionCard">
-                <h3>17. Wasteland Town</h3>
-                <p>Longest Survived: <span id="longestSurvived">8</span> minutes</p>
-                <p>Enemies Defeated: <span id="enemiesDefeated">209/250</span></p>
-                <button class="startButton" onclick="startMission('wasteland')">Start Mission</button>
-            </div>
-            
-            <div class="missionCard">
-                <h3>Regular Challenge</h3>
-                <p>Daily rewards and bonuses</p>
-                <button class="startButton" onclick="startChallenge()">Start Challenge</button>
-                <button class="startButton" style="background: linear-gradient(45deg, #FF6B6B, #FF4500);">Start x5</button>
-            </div>
-            
-            <div class="missionCard">
-                <h3>Daily Event</h3>
-                <p>Special limited-time event</p>
-                <button class="startButton" onclick="startDailyEvent()">Join Event</button>
-            </div>
-            
-            <!-- AD CONTAINER FOR REVENUE -->
-            <div class="adContainer" onclick="watchAdForReward()">
-                <h3>🎁 WATCH AD FOR BONUS REWARDS! 🎁</h3>
-                <p class="rewardText">+50 Coins 💰</p>
-                <p class="rewardText">+10 Energy ⚡</p>
-                <p class="rewardText">+1 Special Crate 🎁</p>
-                <p><small>Click to watch short video</small></p>
+    <div id="gameContainer">
+        <div id="gameUI">
+            <h2>🥷 Ninxha Warriors</h2>
+            <div class="stats">
+                <div class="stat-item">🏆 Score: <span id="score">0</span></div>
+                <div class="stat-item">❤️ Health: <span id="health">100</span></div>
+                <div class="stat-item">⚔️ Enemies: <span id="enemies">0</span></div>
+                <div class="stat-item">💰 Coins: <span id="coins">0</span></div>
             </div>
         </div>
-
-        <!-- SIDEBAR LIKE YOUR GAME -->
-        <div id="gameSidebar">
-            <div class="sidebarSection">
-                <h3>🏠 Mission Center</h3>
-                <p>Complete missions for rewards</p>
-            </div>
-            
-            <div class="sidebarSection">
-                <h3>👥 Clan</h3>
-                <p>Join warriors team</p>
-            </div>
-            
-            <div class="sidebarSection">
-                <h3>👋 My Friends</h3>
-                <p>Invite and play together</p>
-            </div>
-            
-            <div class="sidebarSection">
-                <h3>🎒 My Bag</h3>
-                <p>Items: <span id="itemCount">12</span></p>
-            </div>
-            
-            <div class="sidebarSection">
-                <h3>📅 Event Center</h3>
-                <p>Special events active</p>
-            </div>
-            
-            <div class="sidebarSection">
-                <h3>💎 Chest</h3>
-                <p>Open for rare items</p>
-            </div>
-            
-            <div class="sidebarSection">
-                <h3>🛡️ Patrol</h3>
-                <p>Auto-battle rewards</p>
-            </div>
-            
-            <!-- SECOND AD FOR REVENUE -->
-            <div class="adContainer" onclick="watchAdForEnergy()">
-                <h3>⚡ FREE ENERGY! ⚡</h3>
-                <p class="rewardText">Watch ad to refill energy</p>
-                <p><small>Limited offers available</small></p>
-            </div>
-            
-            <!-- ACHIEVEMENTS -->
-            <div class="sidebarSection">
-                <h3>🏅 Achievements</h3>
-                <div class="achievement">
-                    <span class="achievementIcon">🥇</span>
-                    <div>Warrior Master - 85%</div>
-                </div>
-                <div class="achievement">
-                    <span class="achievementIcon">⚔️</span>
-                    <div>Enemy Slayer - 92%</div>
-                </div>
-                <div class="achievement">
-                    <span class="achievementIcon">💎</span>
-                    <div>Treasure Hunter - 45%</div>
-                </div>
-            </div>
+        
+        <canvas id="gameCanvas" width="400" height="600"></canvas>
+        
+        <div id="controls">
+            <button class="control-btn" onclick="attack()">⚔️ Attack</button>
+            <button class="control-btn" onclick="specialAttack()">💥 Special</button>
+            <button class="control-btn ad-btn" onclick="watchAdForCoins()">📺 Watch Ad (+50 Coins)</button>
         </div>
-    </div>
-
-    <!-- BOTTOM NAVIGATION LIKE YOUR GAME -->
-    <div id="bottomNav">
-        <button class="navButton" onclick="showBattle()">⚔️ Battle</button>
-        <button class="navButton" onclick="showShop()">🛍️ Shop</button>
-        <button class="navButton" onclick="showProfile()">👤 Profile</button>
-        <button class="navButton" onclick="showSettings()">⚙️ Settings</button>
     </div>
 
     <script>
-        // GAME DATA
-        let gameData = {
-            level: 17,
-            energy: 65,
-            maxEnergy: 60,
-            coins: 34,
-            season: 37,
-            longestSurvived: 8,
-            enemiesDefeated: 209,
-            totalEnemies: 250,
-            items: 12
+        // ==================== LOJA E VËRTETË FUNKSIONALE ====================
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // VARIABLAT E LOJËS
+        let player = {
+            x: canvas.width / 2,
+            y: canvas.height - 100,
+            width: 50,
+            height: 50,
+            health: 100,
+            score: 0,
+            coins: 0
         };
+        
+        let enemies = [];
+        let bullets = [];
+        let particles = [];
+        let gameRunning = true;
 
-        // UPDATE DISPLAY
-        function updateDisplay() {
-            document.getElementById('playerLevel').textContent = gameData.level;
-            document.getElementById('playerEnergy').textContent = `${gameData.energy}/${gameData.maxEnergy}`;
-            document.getElementById('playerCoins').textContent = gameData.coins;
-            document.getElementById('playerSeason').textContent = gameData.season;
-            document.getElementById('longestSurvived').textContent = gameData.longestSurvived;
-            document.getElementById('enemiesDefeated').textContent = `${gameData.enemiesDefeated}/${gameData.totalEnemies}`;
-            document.getElementById('itemCount').textContent = gameData.items;
+        // KRIJO ARMIKË
+        function createEnemy() {
+            enemies.push({
+                x: Math.random() * (canvas.width - 30),
+                y: -30,
+                width: 30,
+                height: 30,
+                speed: 2 + Math.random() * 2,
+                health: 20
+            });
         }
 
-        // AD WATCHING FOR REVENUE
-        function watchAdForReward() {
-            if (confirm('🎥 Watch a short ad to get amazing rewards?\n\n💰 +50 Coins\n⚡ +10 Energy\n🎁 +1 Special Crate')) {
-                // Simulate ad watching
+        // SULM I PLAYERIT
+        function attack() {
+            bullets.push({
+                x: player.x + player.width / 2,
+                y: player.y,
+                width: 5,
+                height: 15,
+                speed: 8
+            });
+        }
+
+        // SULM SPECIAL
+        function specialAttack() {
+            for (let i = 0; i < 5; i++) {
+                bullets.push({
+                    x: player.x + player.width / 2,
+                    y: player.y,
+                    width: 8,
+                    height: 8,
+                    speed: 6
+                });
+            }
+        }
+
+        // SHIKO REKLAMË PËR COINS
+        function watchAdForCoins() {
+            if (confirm('📺 Watch short ad for 50 FREE coins?')) {
                 setTimeout(() => {
-                    gameData.coins += 50;
-                    gameData.energy += 10;
-                    gameData.items += 1;
-                    updateDisplay();
-                    alert('🎉 Rewards claimed! Thank you for watching!\n💰 +50 Coins\n⚡ +10 Energy\n🎁 +1 Special Crate');
-                    
-                    // TRACK REVENUE HERE - This is where you'd integrate real ad network
-                    trackAdRevenue(0.05); // $0.05 per ad view
-                    
-                }, 3000); // Simulate 3 second ad
+                    player.coins += 50;
+                    updateUI();
+                    alert('🎉 +50 Coins added! Total: ' + player.coins);
+                }, 2000);
             }
         }
 
-        function watchAdForEnergy() {
-            if (confirm('⚡ Watch ad to get FREE Energy refill?')) {
-                setTimeout(() => {
-                    gameData.energy = gameData.maxEnergy;
-                    updateDisplay();
-                    alert('⚡ Energy fully restored! Ready for battle!');
-                    trackAdRevenue(0.03); // $0.03 per energy ad
-                }, 3000);
+        // UPDATE UI
+        function updateUI() {
+            document.getElementById('score').textContent = player.score;
+            document.getElementById('health').textContent = player.health;
+            document.getElementById('enemies').textContent = enemies.length;
+            document.getElementById('coins').textContent = player.coins;
+        }
+
+        // UPDATE GAME LOGIC
+        function update() {
+            if (!gameRunning) return;
+
+            // LËVIZJA E ARMIKËVE
+            enemies.forEach((enemy, index) => {
+                enemy.y += enemy.speed;
+                
+                // KONTROLLO NËSE E KA ARRITUR PLAYERIN
+                if (enemy.y > canvas.height) {
+                    enemies.splice(index, 1);
+                    player.health -= 10;
+                    if (player.health <= 0) {
+                        gameOver();
+                    }
+                }
+                
+                // KONTROLLO GODITJET ME BULLETS
+                bullets.forEach((bullet, bIndex) => {
+                    if (bullet.x < enemy.x + enemy.width &&
+                        bullet.x + bullet.width > enemy.x &&
+                        bullet.y < enemy.y + enemy.height &&
+                        bullet.y + bullet.height > enemy.y) {
+                        
+                        enemy.health -= 10;
+                        bullets.splice(bIndex, 1);
+                        
+                        if (enemy.health <= 0) {
+                            enemies.splice(index, 1);
+                            player.score += 10;
+                            player.coins += 5;
+                        }
+                    }
+                });
+            });
+
+            // LËVIZJA E BULLETAVE
+            bullets.forEach((bullet, index) => {
+                bullet.y -= bullet.speed;
+                if (bullet.y < 0) {
+                    bullets.splice(index, 1);
+                }
+            });
+
+            // KRIJO ARMIKË TË RINJ
+            if (Math.random() < 0.02) {
+                createEnemy();
+            }
+
+            updateUI();
+        }
+
+        // VIZATO GJITHÇKA
+        function draw() {
+            // CLEAR CANVAS
+            ctx.fillStyle = '#0f3460';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // VIZATO PLAYER
+            ctx.fillStyle = '#8A2BE2';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            
+            // VIZATO FYTYRË
+            ctx.fillStyle = 'white';
+            ctx.fillRect(player.x + 10, player.y + 10, 8, 8);
+            ctx.fillRect(player.x + 32, player.y + 10, 8, 8);
+
+            // VIZATO ARMIKË
+            ctx.fillStyle = '#B22222';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            });
+
+            // VIZATO BULLETA
+            ctx.fillStyle = '#FFD700';
+            bullets.forEach(bullet => {
+                ctx.fillRect(bullet.x, bullet.y, bullet.width, bullet.height);
+            });
+        }
+
+        // GAME OVER
+        function gameOver() {
+            gameRunning = false;
+            alert('💀 GAME OVER! Score: ' + player.score + '\nCoins: ' + player.coins + '\n\nWatch ad to continue?');
+            
+            // OFRO AD PËR TË VAZHDUAR
+            if (confirm('📺 Watch ad to revive with 50% health?')) {
+                player.health = 50;
+                gameRunning = true;
+                alert('⚡ Revived! Continue playing!');
             }
         }
 
-        // REVENUE TRACKING
-        function trackAdRevenue(amount) {
-            console.log(`💰 Ad revenue generated: $${amount}`);
-            // In real implementation, integrate with:
-            // - Google AdMob
-            // - Unity Ads
-            // - Facebook Audience Network
-            // - AppLovin
+        // GAME LOOP
+        function gameLoop() {
+            update();
+            draw();
+            requestAnimationFrame(gameLoop);
         }
 
-        // GAME FUNCTIONS
-        function startMission(mission) {
-            if (gameData.energy >= 10) {
-                gameData.energy -= 10;
-                gameData.enemiesDefeated += 5;
-                gameData.coins += 15;
-                updateDisplay();
-                alert(`🏁 Mission "${mission}" completed!\n⚡ -10 Energy\n💰 +15 Coins\n⚔️ +5 Enemies defeated`);
-            } else {
-                alert('⚠️ Not enough energy! Watch an ad to refill.');
-            }
-        }
+        // KONTROLLET ME PREKJE
+        canvas.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            player.x = touch.clientX - rect.left - player.width / 2;
+            
+            // KUFIJTË
+            player.x = Math.max(0, Math.min(canvas.width - player.width, player.x));
+        });
 
-        function startChallenge() {
-            if (gameData.energy >= 5) {
-                gameData.energy -= 5;
-                gameData.coins += 8;
-                updateDisplay();
-                alert('🎯 Challenge completed!\n⚡ -5 Energy\n💰 +8 Coins');
-            } else {
-                alert('⚠️ Not enough energy!');
-            }
-        }
+        // FILLO LOJËN
+        gameLoop();
 
-        function startDailyEvent() {
-            alert('📅 Daily event started! Complete special objectives for rare rewards.');
-        }
-
-        // NAVIGATION
-        function showBattle() { alert('⚔️ Battle mode activated!'); }
-        function showShop() { alert('🛍️ Shop opened! Buy items and upgrades.'); }
-        function showProfile() { alert('👤 Profile statistics and achievements.'); }
-        function showSettings() { alert('⚙️ Game settings and options.'); }
-
-        // INITIALIZE
-        updateDisplay();
-
-        // AUTO ENERGY REFILL (every 5 minutes)
-        setInterval(() => {
-            if (gameData.energy < gameData.maxEnergy) {
-                gameData.energy += 1;
-                updateDisplay();
-            }
-        }, 300000); // 5 minutes
-
-        // PUSH NOTIFICATION FOR ADS
+        // AUTO AD NOTIFICATION
         setTimeout(() => {
-            if (Math.random() > 0.5) {
-                if (confirm('🎁 SPECIAL OFFER!\nDouble rewards available!\nWatch an ad for 2x coins?')) {
-                    watchAdForReward();
+            if (player.coins < 20) {
+                if (confirm('💰 Running low on coins? Watch a quick ad for 50 FREE coins!')) {
+                    watchAdForCoins();
                 }
             }
-        }, 15000); // After 15 seconds
+        }, 30000); // PAS 30 SEKONDASH
+
     </script>
 </body>
 </html>
