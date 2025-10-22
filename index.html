@@ -1,163 +1,1011 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="sq">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>MarketPlace Affiliate - Demo</title>
-<style>
-  body{font-family:Arial, sans-serif;background:#f5f7fb;color:#111;margin:0;padding:20px}
-  header{display:flex;justify-content:space-between;align-items:center}
-  h1{font-size:18px;margin:0}
-  .searchBox{margin:18px 0;display:flex;gap:8px}
-  input[type="search"]{flex:1;padding:10px;border-radius:8px;border:1px solid #cfd8e3}
-  button{padding:10px 12px;border-radius:8px;border:none;background:#0066ff;color:white;cursor:pointer}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px}
-  .card{background:white;border-radius:10px;padding:12px;box-shadow:0 6px 18px rgba(2,6,23,0.06)}
-  .card img{width:100%;height:140px;object-fit:cover;border-radius:6px}
-  .card h3{font-size:15px;margin:8px 0}
-  .card .price{font-weight:bold;color:#0b6}
-  .card .cta{margin-top:8px;display:flex;gap:6px}
-  .muted{font-size:13px;color:#666}
-  footer{margin-top:18px;font-size:13px;color:#666}
-  .note{background:#fffbe6;padding:10px;border-radius:8px;border:1px solid #ffecb5;margin-top:12px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Premium Shop - Dyqan Online Ndërkombëtar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --success: #27ae60;
+            --warning: #f39c12;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --text: #333;
+            --text-light: #7f8c8d;
+            --border: #ddd;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary), #4a6491);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: var(--secondary);
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a i {
+            margin-right: 5px;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .header-actions {
+            display: flex;
+            align-items: center;
+        }
+        
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+            margin-right: 1rem;
+        }
+        
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .language-currency {
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-currency select {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+        
+        .language-currency select option {
+            color: var(--dark);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 5rem 0;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .btn:hover {
+            background: #2980b9;
+        }
+        
+        .btn-accent {
+            background: var(--accent);
+        }
+        
+        .btn-accent:hover {
+            background: #c0392b;
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-success:hover {
+            background: #219653;
+        }
+        
+        /* Products Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            color: var(--primary);
+        }
+        
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .product-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-availability {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .available {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .not-available {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .add-to-cart {
+            width: 100%;
+            padding: 0.7rem;
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .add-to-cart i {
+            margin-right: 8px;
+        }
+        
+        .add-to-cart:hover {
+            background: #219653;
+        }
+        
+        .add-to-cart:disabled {
+            background: var(--text-light);
+            cursor: not-allowed;
+        }
+        
+        /* Shipping Banner */
+        .shipping-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .shipping-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .shipping-info i {
+            font-size: 2rem;
+            margin-right: 1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            color: var(--secondary);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section ul li a {
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-section ul li a i {
+            margin-right: 8px;
+            width: 16px;
+        }
+        
+        .footer-section ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        .payment-methods {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .payment-method {
+            background: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid #34495e;
+            color: #bdc3c7;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 8px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .modal-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        /* Cart Modal */
+        .cart-items {
+            margin-bottom: 1.5rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-right: 1rem;
+        }
+        
+        .cart-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .cart-item-info {
+            flex-grow: 1;
+        }
+        
+        .cart-item-title {
+            font-weight: 600;
+        }
+        
+        .cart-item-price {
+            color: var(--text-light);
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+        }
+        
+        .quantity-btn {
+            background: var(--light);
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .quantity {
+            margin: 0 0.5rem;
+            font-weight: 600;
+        }
+        
+        .remove-item {
+            background: none;
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            margin-left: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 1rem 0;
+            border-top: 2px solid var(--border);
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .checkout-btn:hover {
+            background: #2980b9;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-light);
+        }
+        
+        /* Checkout Form */
+        .checkout-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            grid-column: 1 / -1;
+        }
+        
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .payment-option {
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-option.selected {
+            border-color: var(--secondary);
+            background: rgba(52, 152, 219, 0.1);
+        }
+        
+        .payment-option i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        /* Notification */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: var(--shadow);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+        
+        .notification i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 0.5rem;
+            }
+            
+            .header-actions {
+                margin-top: 1rem;
+            }
+            
+            .hero {
+                padding: 3rem 0;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .checkout-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .shipping-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .shipping-info {
+                margin-bottom: 1rem;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-<header>
-  <h1>Butiku indivudal — Kërko & porosit (Affiliate Demo)</h1>
-  <div>Komision: <strong>10%</strong></div>
-</header>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-globe-europe"></i>
+                    Global<span>Shop</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Kryefaqja</a></li>
+                        <li><a href="#"><i class="fas fa-box"></i> Produktet</a></li>
+                        <li><a href="#"><i class="fas fa-shipping-fast"></i> Transporti</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> Rreth Nesh</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Kontakt</a></li>
+                    </ul>
+                </nav>
+                <div class="header-actions">
+                    <div class="cart-icon" id="cartIcon">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="cart-count">0</span>
+                    </div>
+                    <div class="language-currency">
+                        <select id="languageSelect">
+                            <option value="sq">Shqip</option>
+                            <option value="en">English</option>
+                            <option value="de">Deutsch</option>
+                        </select>
+                        <select id="currencySelect">
+                            <option value="EUR">EUR</option>
+                            <option value="USD">USD</option>
+                            <option value="GBP">GBP</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-<div class="searchBox">
-  <input id="q" type="search" placeholder="Kerko për: rroba, këpucë, varse, ora, kapelë..." />
-  <button id="searchBtn">Kërko</button>
-</div>
+    <section class="hero">
+        <div class="container">
+            <h1>Dyqani Juaj Online Ndërkombëtar</h1>
+            <p>Bleni produkte premium me dorëzim në mbarë botën. Transport i shpejtë dhe i sigurt në Shqipëri, Kosovë, Ballkan dhe mbarë botën.</p>
+            <a href="#products" class="btn">Shiko Produktet</a>
+        </div>
+    </section>
 
-<!-- Rezultatet -->
-<div id="results" class="grid"></div>
+    <section class="container">
+        <div class="shipping-banner">
+            <div class="shipping-info">
+                <i class="fas fa-shipping-fast"></i>
+                <div>
+                    <h3>Transporti Ndërkombëtar</h3>
+                    <p>Dërgesë në Shqipëri dhe Kosovë: 2-4 ditë | Ballkan: 3-6 ditë | Evropë: 5-8 ditë | USA/Aziat: 8-14 ditë</p>
+                </div>
+            </div>
+            <div>
+                <a href="#" class="btn btn-accent">Mësoni Më Shumë</a>
+            </div>
+        </div>
+    </section>
 
-<!-- Modal porosie -->
-<div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);align-items:center;justify-content:center;">
-  <div style="background:white;padding:16px;border-radius:8px;max-width:420px;width:94%;">
-    <h3 id="mTitle">Konfirmo porosinë</h3>
-    <p id="mDesc" class="muted">Një rishikim i shpejtë përpara se të ridrejtoheni tek furnizuesi.</p>
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button id="confirmBtn" style="flex:1;background:#06a84b;color:white;padding:10px;border-radius:8px;border:none">Porosis</button>
-      <button id="cancelBtn" style="flex:1;background:#eee;padding:10px;border-radius:8px;border:none">Anulo</button>
+    <section class="container" id="products">
+        <h2 class="section-title">Produktet Tona</h2>
+        <div class="products">
+            <!-- Produkti 1 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Shall qafé - Premium</h3>
+                    <div class="product-price">18.00 €</div>
+                    <span class="product-availability available">Në Stok</span>
+                    <button class="add-to-cart" data-id="1" data-name="Shall qafé - Premium" data-price="18.00" data-image="https://images.unsplash.com/photo-1544787219-7f47ccb76574?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+                        <i class="fas fa-cart-plus"></i> Shto në Shportë
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Produkti 2 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Këpucë sportive</h3>
+                    <div class="product-price">68.50 €</div>
+                    <span class="product-availability available">Në Stok</span>
+                    <button class="add-to-cart" data-id="2" data-name="Këpucë sportive" data-price="68.50" data-image="https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+                        <i class="fas fa-cart-plus"></i> Shto në Shportë
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Produkti 3 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Orë Elegante</h3>
+                    <div class="product-price">120.00 €</div>
+                    <span class="product-availability available">Në Stok</span>
+                    <button class="add-to-cart" data-id="3" data-name="Orë Elegante" data-price="120.00" data-image="https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+                        <i class="fas fa-cart-plus"></i> Shto në Shportë
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Produkti 4 -->
+            <div class="product-card">
+                <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
+                <div class="product-info">
+                    <h3 class="product-title">Kufje Bluetooth</h3>
+                    <div class="product-price">89.99 €</div>
+                    <span class="product-availability available">Në Stok</span>
+                    <button class="add-to-cart" data-id="4" data-name="Kufje Bluetooth" data-price="89.99" data-image="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80">
+                        <i class="fas fa-cart-plus"></i> Shto në Shportë
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Rreth Nesh</h3>
+                    <p>GlobalShop është dyqani juaj online për produkte premium me dërgesë në mbarë botën. Ne ofrojmë cilësi të lartë dhe shërbim të shkëlqyer për klientët tanë nga e gjithë bota.</p>
+                    <div class="payment-methods">
+                        <div class="payment-method">Visa</div>
+                        <div class="payment-method">MasterCard</div>
+                        <div class="payment-method">PayPal</div>
+                        <div class="payment-method">Apple Pay</div>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Lidhje të Shpejta</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-home"></i> Kryefaqja</a></li>
+                        <li><a href="#"><i class="fas fa-box"></i> Produktet</a></li>
+                        <li><a href="#"><i class="fas fa-shipping-fast"></i> Politika e Transportit</a></li>
+                        <li><a href="#"><i class="fas fa-exchange-alt"></i> Politika e Kthimit</a></li>
+                        <li><a href="#"><i class="fas fa-lock"></i> Politika e Privatësisë</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Kontakt</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-phone"></i> +355 12 345 678 (Shqipëri)</a></li>
+                        <li><a href="#"><i class="fas fa-phone"></i> +383 12 345 678 (Kosovë)</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> info@globalshop.com</a></li>
+                        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Rruga e Dëshmorëve, Tirana, Shqipëri</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Na Ndiqni</h3>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 GlobalShop. Të gjitha të drejtat e rezervuara. | VAT: AL12345678L
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal i Shportës -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeCart">&times;</button>
+            <div class="modal-header">
+                <h2>Shporta Juaj</h2>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <div class="empty-cart" id="emptyCart">Shporta juaj është e zbrazët</div>
+            </div>
+            <div class="cart-total">
+                <span>Totali:</span>
+                <span id="cartTotal">0.00 €</span>
+            </div>
+            <button class="checkout-btn" id="checkoutBtn">Vazhdo me Blerjen</button>
+        </div>
     </div>
-    <div style="margin-top:8px;font-size:13px;color:#444">
-      Shënim: Ky demo *ridrejton* tek furnizuesi; pagesa bëhet tek ai. Ti fiton komision sapo furnizuesi konfirmon shitjen.
+
+    <!-- Modal i Pagesës -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeCheckout">&times;</button>
+            <div class="modal-header">
+                <h2>Përfundo Porosinë</h2>
+            </div>
+            <form id="checkoutForm" class="checkout-form">
+                <div class="form-row">
+                    <h3>Informacioni i Dërgesës</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="firstName">Emri *</label>
+                    <input type="text" id="firstName" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Mbiemri *</label>
+                    <input type="text" id="lastName" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Telefon *</label>
+                    <input type="tel" id="phone" class="form-control" required>
+                </div>
+                
+                <div class="form-group form-row">
+                    <label for="address">Adresa *</label>
+                    <input type="text" id="address" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="city">Qyteti *</label>
+                    <input type="text" id="city" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="zipCode">Kodi Postar *</label>
+                    <input type="text" id="zipCode" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="country">Shteti *</label>
+                    <select id="country" class="form-control" required>
+                        <option value="">Zgjidhni Shtetin</option>
+                        <option value="al">Shqipëri</option>
+                        <option value="xk">Kosovë</option>
+                        <option value="mk">Maqedonia e Veriut</option>
+                        <option value="me">Mal i Zi</option>
+                        <option value="rs">Serbi</option>
+                        <option value="hr">Kroaci</option>
+                        <option value="si">Sllovenia</option>
+                        <option value="ba">Bosnja dhe Hercegovina</option>
+                        <option value="gr">Greqi</option>
+                        <option value="it">Itali</option>
+                        <option value="de">Gjermani</option>
+                        <option value="fr">Franca</option>
+                        <option value="gb">Mbretëria e Bashkuar</option>
+                        <option value="us">SHBA</option>
+                        <option value="ca">Kanada</option>
+                        <option value="au">Australi</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <h3>Metoda e Pagesës</h3>
+                </div>
+                
+                <div class="payment-options">
+                    <div class="payment-option" data-method="card">
+                        <i class="fas fa-credit-card"></i>
+                        <div>Kartë Krediti</div>
+                    </div>
+                    <div class="payment-option" data-method="paypal">
+                        <i class="fab fa-paypal"></i>
+                        <div>PayPal</div>
+                    </div>
+                    <div class="payment-option" data-method="bank">
+                        <i class="fas fa-university"></i>
+                        <div>Transfertë Bankare</div>
+                    </div>
+                </div>
+                
+                <div id="cardDetails" class="form-row" style="display: none;">
+                    <div class="form-group">
+                        <label for="cardNumber">Numri i Kartës *</label>
+                        <input type="text" id="cardNumber" class="form-control" placeholder="1234 5678 9012 3456">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cardName">Emri në Kartë *</label>
+                        <input type="text" id="cardName" class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expiryDate">Data e Skadencës *</label>
+                        <input type="text" id="expiryDate" class="form-control" placeholder="MM/YY">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cvv">CVV *</label>
+                        <input type="text" id="cvv" class="form-control" placeholder="123">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <h3>Përmbledhje e Porosisë</h3>
+                    <div id="orderSummary">
+                        <!-- Përmbledhja e porosisë do të shfaqet këtu -->
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <button type="submit" class="checkout-btn">Konfirmo Porosinë</button>
+                </div>
+            </form>
+        </div>
     </div>
-  </div>
-</div>
 
-<div class="note">
-  <strong>Shënim ligjor:</strong> Nëse përdor model affiliate, vendos qartë politikat e kthimit dhe transparencën për përdoruesit. Nëse zgjedh dropshipping, hyn në marrëveshje me furnizuesin.
-</div>
+    <script>
+        // Variabla globale
+        let cart = [];
+        let currentCurrency = 'EUR';
+        let exchangeRates = {
+            'EUR': 1,
+            'USD': 1.08,
+            'GBP': 0.85
+        };
+        
+        // Elementët DOM
+        const cartIcon = document.getElementById('cartIcon');
+        const cartModal = document.getElementById('cartModal');
+        const closeCart = document.getElementById('closeCart');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const emptyCart = document.getElementById('emptyCart');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const cartCount = document.querySelector('.cart-count');
+        const checkoutModal = document.getElementById('checkoutModal');
+        const closeCheckout = document.getElementById('closeCheckout');
+        const checkoutForm = document.getElementById('checkoutForm');
+        const paymentOptions = document.querySelectorAll('.payment-option');
+        const cardDetails = document.getElementById('cardDetails');
+        const orderSummary = document.getElementById('orderSummary');
+        const currencySelect = document.getElementById('currencySelect');
+        const languageSelect = document.getElementById('languageSelect');
 
-<footer>
-  <div>Demo: Ky faqe është një shembull. Për të lidhur me affiliate real, zëvendëso `supplierUrl` në kod me linkun tënd me tracking.</div>
-</footer>
+        // Ngarko shportën nga localStorage nëse ekziston
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'));
+            updateCart();
+        }
 
-<script>
-/* === SAMPLE CATALOG (në prod: përdor API që sjell produkte real nga furnizuesit) === */
-const sampleProducts = [
-  { id: 'p1', title:'Kapele sportive - Black', price: 12.99, img:'https://picsum.photos/seed/hat/400/300', supplierUrl:'https://example-supplier.com/product/hat-123?aff=AFFID' },
-  { id: 'p2', title:'Zinxhir dore - Stainless', price: 24.90, img:'https://picsum.photos/seed/chain/400/300', supplierUrl:'https://example-supplier.com/product/chain-77?aff=AFFID' },
-  { id: 'p3', title:'Syze verore - Trend', price: 39.00, img:'https://picsum.photos/seed/glasses/400/300', supplierUrl:'https://example-supplier.com/product/glass-55?aff=AFFID' },
-  { id: 'p4', title:'Shall qafë - Premium', price: 18.00, img:'https://picsum.photos/seed/scarf/400/300', supplierUrl:'https://example-supplier.com/product/scarf-21?aff=AFFID' },
-  { id: 'p5', title:'Këpucë sportive', price: 68.50, img:'https://picsum.photos/seed/shoe/400/300', supplierUrl:'https://example-supplier.com/product/shoe-22?aff=AFFID' }
-];
+        // Ngarko monedhën e zgjedhur
+        if (localStorage.getItem('currency')) {
+            currentCurrency = localStorage.getItem('currency');
+            currencySelect.value = currentCurrency;
+        }
 
-/* === SETTINGS - Zëvendëso AFF link me atë tënd nga programi affiliate === */
-const AFFILIATE_TAG = 'tuaja_aff=MYAFF123'; // shembull, duhet ta marrësh nga programi i partnerit
-
-/* === RENDER & SEARCH === */
-const resultsEl = document.getElementById('results');
-function renderList(list){
-  resultsEl.innerHTML = '';
-  list.forEach(p=>{
-    const div = document.createElement('div'); div.className='card';
-    div.innerHTML = `
-      <img src="${p.img}" alt="${p.title}" />
-      <h3>${p.title}</h3>
-      <div class="price">${p.price.toFixed(2)} €</div>
-      <div class="muted">Disponueshme: <strong>Po</strong></div>
-      <div class="cta">
-        <button data-id="${p.id}" class="buyBtn" style="flex:1;background:#0066ff;color:#fff;padding:8px;border-radius:8px;border:none;cursor:pointer">Porosit</button>
-        <button data-id="${p.id}" class="wishBtn" style="background:#eee;padding:8px;border-radius:8px;border:none;cursor:pointer">Shiko</button>
-      </div>`;
-    resultsEl.appendChild(div);
-  });
-}
-renderList(sampleProducts);
-
-document.getElementById('searchBtn').addEventListener('click', ()=>{
-  const q = document.getElementById('q').value.trim().toLowerCase();
-  if(!q){ renderList(sampleProducts); return; }
-  const filtered = sampleProducts.filter(p=> p.title.toLowerCase().includes(q) );
-  renderList(filtered.length?filtered:sampleProducts);
-});
-
-/* === ORDER FLOW: open modal then redirect with affiliate param === */
-const modal = document.getElementById('modal');
-let currentProduct = null;
-resultsEl.addEventListener('click', (ev)=>{
-  const btn = ev.target.closest('button');
-  if(!btn) return;
-  const id = btn.dataset.id;
-  const p = sampleProducts.find(x=>x.id===id);
-  if(btn.classList.contains('buyBtn')){
-    currentProduct = p;
-    document.getElementById('mTitle').textContent = 'Porosis: ' + p.title;
-    document.getElementById('mDesc').textContent = 'Çmim: ' + p.price.toFixed(2) + ' €. Do ridrejtoheni tek furnizuesi për të përfunduar pagesën.';
-    modal.style.display = 'flex';
-  } else if(btn.classList.contains('wishBtn')){
-    alert('Shiko më shumë: ' + p.title + '\\nÇmim: ' + p.price.toFixed(2) + ' €');
-  }
-});
-
-document.getElementById('cancelBtn').addEventListener('click', ()=>{ modal.style.display='none'; currentProduct=null; });
-
-document.getElementById('confirmBtn').addEventListener('click', ()=>{
-  if(!currentProduct) return;
-  // 1) Regjistro në sistemin tënd (lokal) për të ndjekur porosinë - MUND ta dërgosh në server me fetch
-  const sale = {
-    id: 'local-'+Date.now(),
-    productId: currentProduct.id,
-    title: currentProduct.title,
-    price: currentProduct.price,
-    timestamp: Date.now()
-  };
-  // Ruaje lokalisht (nëse do shofësh shitjet)
-  const sales = JSON.parse(localStorage.getItem('affiliate_sales')||'[]');
-  sales.unshift(sale);
-  localStorage.setItem('affiliate_sales', JSON.stringify(sales.slice(0,200)));
-  // 2) Ndërto link affiliate: script assumes supplierUrl + '&' + AFFILIATE_TAG or replace placeholder AFFID
-  // Example: replace placeholder "AFFID" me tracking code (if sampleUrls use '?aff=AFFID')
-  let target = currentProduct.supplierUrl.replace('AFFID', 'YOUR_AFF_ID');
-  // In some cases affiliate param must be appended:
-  if(target.indexOf('?') === -1) target += '?' + AFFILIATE_TAG; else if(target.indexOf('tuaja_aff')===-1) target += '&' + AFFILIATE_TAG;
-  // 3) Redirect user to supplier (actual checkout happens at supplier)
-  modal.style.display = 'none';
-  currentProduct = null;
-  // Log and then redirect
-  console.log('Redirecting to supplier:', target);
-  // If do të ndjekësh konfirmime shitjesh nga furnizuesi, duhet server-side callback (webhooks) nga affiliate programi.
-  window.location.href = target;
-});
-
-/* === ADMIN: shiko shitjet lokale (thjeshtë demo) === */
-function showLocalSales(){
-  const s = JSON.parse(localStorage.getItem('affiliate_sales')||'[]');
-  if(!s.length) return alert('S’ka shitje të regjistruara (lokale).');
-  let txt = 'Shitjet lokale:\\n';
-  s.slice(0,50).forEach(x=> txt += `${new Date(x.timestamp).toLocaleString()} — ${x.title} — ${x.price} €\\n`);
-  alert(txt);
-}
-// shortcut: ctrl+s për të parë shitjet lokale
-window.addEventListener('keydown', (e)=>{ if(e.ctrlKey && e.key === 's'){ e.preventDefault(); showLocalSales(); } });
-
-</script>
-</body>
-</html>
+        // Funksioni për të shtuar produkt në shportë
+        function addToCart(productId, productName, productPrice, productImage) {
